@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Module 1 - Connecting with and Controlling KITT &#8212; Autonomous Driving Challenge</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Module1';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Basics and Course Overview" href="Basics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/truck.jpg" class="logo__image only-light" alt="Autonomous Driving Challenge - Home"/>
+    <script>document.write(`<img src="_static/truck.jpg" class="logo__image only-dark" alt="Autonomous Driving Challenge - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction to IP3: Autonomous Driving Challenge
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/apar1012/OpenEd/main?urlpath=tree/Module1.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/apar1012/OpenEd" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/apar1012/OpenEd/issues/new?title=Issue%20on%20page%20%2FModule1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Module1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Module 1 - Connecting with and Controlling KITT</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-overview">Brief Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kitt-basics">KITT Basics</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware">Hardware</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communicating-with-kitt">Communicating with KITT</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyserial">pySerial</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-kitt">Connecting to KITT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-kitt">Controlling KITT</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-kitt-control-script">Implementing a basic KITT Control Script</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-extensions">Optional Extensions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="module-1-connecting-with-and-controlling-kitt">
+<h1>Module 1 - Connecting with and Controlling KITT<a class="headerlink" href="#module-1-connecting-with-and-controlling-kitt" title="Link to this heading">#</a></h1>
+<p>Let us start with providing an overview and a brief description on getting to know the vehicle and implementing some basic control scripts.</p>
+<section id="brief-overview">
+<h2>Brief Overview<a class="headerlink" href="#brief-overview" title="Link to this heading">#</a></h2>
+<p>KITT is a remotely controlled vehicle. To allow for this remote control, a wireless link must be used.
+Over this wireless link, control commands can be sent from the base station (your computer) to KITT.
+This wireless link also facilitates requests for data from KITT and KITT’s data in response to these
+requests.
+This project requires you to maneuver KITT in all sorts of ways. In this module, you will set up a
+connection to KITT and work with basic controls to allow for more advanced actions later on.
+This module starts with an assignment to get to know your team, set up your development environment,
+and start working with the car.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Approximate duration required for this module,</p>
+<p>Lab session hours and Preparation session
+<em>10 hours</em></p>
+</div>
+<section id="kitt-basics">
+<h3>KITT Basics<a class="headerlink" href="#kitt-basics" title="Link to this heading">#</a></h3>
+<p>KITT is based on a repurposed toy car model, the Traxass E-MAXX. As seen in this <code class="xref std std-numref docutils literal notranslate"><span class="pre">KITT</span> <span class="pre">car</span> <span class="pre">figure</span></code> figure. There is a data sheet (here it is <span class="xref std std-doc">C:\Users\aparn\mybookname\EE2L21 KITT datasheet.pdf</span>) as well which gives an overview of the various components, such as the motor controller, LCD status indicator, ultrasonic sensors, and, most importantly, the communication module.</p>
+<figure class="align-default" id="car-figure">
+<img alt="_images/traxxas_e-maxx.png" src="_images/traxxas_e-maxx.png" />
+<figcaption>
+<p><span class="caption-text">Traxass E-MAXX along with it’s dimensions</span><a class="headerlink" href="#car-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="hardware">
+<h4>Hardware<a class="headerlink" href="#hardware" title="Link to this heading">#</a></h4>
+<p>Many components are combined on a single custom-made MCU board installed on KITT. The microcontroller forms the core of this board, an NXP LPC4357 chip with an ARM CORTEX-M4/M0 core. The MCU board contains the Bluetooth module, connectors for all peripherals, and an amplifier for the audio beacon, which will be used for the localization. The following figure <a class="reference internal" href="#schematic-overview"><span class="std std-ref">Schematic Overview of KITT communication with the PC</span></a> shows a schematic overview of the connection.</p>
+<p>The MCU is fed from the rechargeable batteries using a buck converter that converts the voltage to <em>5V</em> DC. Using an LM1117-3.3, <em>3.3V</em> is generated.</p>
+<figure class="align-default" id="schematic-overview">
+<img alt="_images/communication_overview.png" src="_images/communication_overview.png" />
+<figcaption>
+<p><span class="caption-text">Schematic of communication with KITT and PC.</span><a class="headerlink" href="#schematic-overview" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The Bluetooth communication with KITT consists of the following elements:</p>
+<ul class="simple">
+<li><p>On car: Roving Networks RN-41 I/RM, Onboard Bluetooth module with UART control.</p></li>
+<li><p>On PC: LM Technologies LM506, USB Bluetooth V4.0 dongle with Broadcom BCM20702 chipset, or the internal Bluetooth module of your laptop.</p></li>
+</ul>
+<p>You can use your computer’s internal Bluetooth connector to connect to KITT. If you want to use one of the lab computers or have trouble connecting to KITT from your PC (check if all drivers are installed), you can use the USB Bluetooth dongle.</p>
+<p>KITT has four LED’s, see figure <a class="reference internal" href="#leds"><span class="std std-ref">KITT LEDs</span></a>, their meaning is as follows:</p>
+<figure class="align-default" id="leds">
+<img alt="_images/KITT_leds.png" src="_images/KITT_leds.png" />
+<figcaption>
+<p><span class="caption-text">LEDs (KITT)</span><a class="headerlink" href="#leds" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Red (twice): <em>5V</em> and <em>20V</em> supply voltages are present.</p></li>
+<li><p>Green (blinking): Bluetooth searches for connection; (steady) Bluetooth connected.</p></li>
+<li><p>Yellow (blinking): Bluetooth data transfer.</p></li>
+</ul>
+<p>The button next to the LEDs is a reset button for the MCU. This reset button allows the user to reset KITT’s actions if it freezes or is unresponsive.</p>
+</section>
+</section>
+<section id="communicating-with-kitt">
+<h3>Communicating with KITT<a class="headerlink" href="#communicating-with-kitt" title="Link to this heading">#</a></h3>
+<section id="pyserial">
+<h4>pySerial<a class="headerlink" href="#pyserial" title="Link to this heading">#</a></h4>
+<p>pySerial is a Python module that provides a simple and efficient way to communicate with serial ports. It allows Python programs to access and manipulate the serial ports on a computer, allowing them to communicate with other devices connected to those ports. With pySerial, you can easily send and receive data to/from these devices. pySerial is cross-platform, which works on Windows, macOS, and Linux operating systems.</p>
+<ul class="simple">
+<li><p><em>serial.Serial(port, baud rate)</em> - This command initializes a serial connection. The port argument specifies the serial port to use (e.g., “COM1” on Windows or “/dev/rfcomm0” on Linux),
+and the baud-rate argument specifies the data rate in bits per second.</p></li>
+<li><p><em>serial.write(data)</em> - This command sends data over the serial connection. The data argument is a bytes object that contains the data to be sent.</p></li>
+<li><p><em>serial.read(size)</em> - This command reads a specified number of bytes from the serial connection. It blocks until the specified number of bytes is received.</p></li>
+<li><p><em>serial.flush()</em> - This command is used to flush the input and output buffers of the serial connection.</p></li>
+<li><p><em>serial.close()</em> - This command is used to close the serial connection.</p></li>
+</ul>
+<p>Further more, updated information regarding the module can also be found through this link <a class="reference external" href="https://pyserial.readthedocs.io/en/latest/pyserial.html">pySerial</a>.</p>
+</section>
+<section id="connecting-to-kitt">
+<h4>Connecting to KITT<a class="headerlink" href="#connecting-to-kitt" title="Link to this heading">#</a></h4>
+<p>To start off with, connect the car to your computer over Bluetooth. Make sure you know the name of the Bluetooth port that the car is connected <a class="reference external" href="http://to.To">to.To</a> access the link in Python use,</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>serial_port is an instance of pySerial and this object can be used to manipulate KITT. The variable comport is the path to the comport assigned to the Bluetooth connection with KITT. Which
+comport specifically KITT is connected to can be found in your communication settings.
+Further information regarding the issues with connecting to the port via Bluetooth can be solved by referring to the Appendices.</p>
+<p>Also keep in mind, The Bluetooth connection is disturbed by leaving comports open, quitting your work without closing the communication link, removing the Bluetooth dongle, or turning off the Bluetooth connection. Avoid disturbing the Bluetooth connection by ending the connection properly before doing any of the aforementioned things. If you disturb the Bluetooth link, you may need to reboot your computer to reset the operating system, which costs you valuable lab time.</p>
+</div>
+<p>The connection must also be closed once you are done using the port,</p>
+</section>
+<section id="controlling-kitt">
+<h4>Controlling KITT<a class="headerlink" href="#controlling-kitt" title="Link to this heading">#</a></h4>
+<p>After connecting to KITT, commands are required to control it. First off, for <em>driving</em> there are 2 types of instructions:</p>
+<ul class="simple">
+<li><p>A direction command.</p></li>
+<li><p>A motor speed command.</p></li>
+</ul>
+<p>These are controlled using Pulse width modulation.  Both commands are neutral at a setting of 150. The direction commands range from 200 (hard left) to 100 (hard right), and the motor commands range from 135 (backward) to 165 (forward).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>However, there is a dead zone for the motor commands, so KITT will likely not start moving forward until the PWM is set to about 153. It is recommended to experiment with these values, they are also battery-dependent. You should test the size of the drive command dead-band, verify that 150 is the middle position for steering (sometimes there is a deviation of ±2), and test the maximum left and right position.</p>
+</div>
+<p>All the commands are sent in binary and end with a new line character.</p>
+<p>To set direction to 169 and motor speed to 135, it can be done as follows,</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Once you set the motor speed commands, KITT will continue to act on this until you either
+transmit a new motor speed command or reset the MCU using the button on KITT, which will set both
+direction and motor speed commands to the neutral value of 150. Do one of these two options after your
+tests since KITT will keep driving if you don’t.</p>
+</div>
+<p>Secondly, <em>Audio beacon</em> commands used are,</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Be aware that the default code word for the beacon is 0x00000000, which means KITT will not start making noise on its own when the beacon is turned on. You should specify a code as described below before you can hear the beacon make noise. Furthermore, an arbitrary carrier frequency, bit frequency and repitition count can be used. (Generally, maximum of 30 kHz)</p>
+</div>
+<p>The repitition count formula is as follows,</p>
+<div class="math notranslate nohighlight">
+\[
+\displaystyle
+\left( Repitition count = Bit frequency/ Repitition Frequency \right)
+\]</div>
+<p>Lastly, the <em>status command</em> which requests for the status and all the data from KITT,</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The status string reports the current drive commands, the ultrasonic sensor distance (cm), the battery voltage (mV), the audio status (on/off) and control parameters (code word,carrier-frequency, bit-frequency, repetition count). A sensor distance of 999 means overload (i.e., out of range)
+Also, remember that all the numbers provided here serve only as an example. It is up to you to determine what carrier frequency, code word, etc., best fits the goal of succeeding at the final challenge.</p>
+</div>
+<!-- As it is markdown, you can embed images, HTML, etc into your posts!
+
+![](https://myst-parser.readthedocs.io/en/latest/_static/logo-wide.svg) -->
+<!-- You can also $add_{math}$ and
+
+$$
+math^{blocks}
+$$
+
+or
+
+$$
+\begin{aligned}
+\mbox{mean} la_{tex} \\ \\
+math blocks
+\end{aligned}
+$$
+
+But make sure you \$Escape \$your \$dollar signs \$you want to keep! -->
+<!-- ## MyST markdown
+
+MyST markdown works in Jupyter Notebooks as well. For more information about MyST markdown, check
+out [the MyST guide in Jupyter Book](https://jupyterbook.org/content/myst.html),
+or see [the MyST markdown documentation](https://myst-parser.readthedocs.io/en/latest/).
+
+## Code blocks and outputs -->
+</section>
+</section>
+<section id="implementing-a-basic-kitt-control-script">
+<h3>Implementing a basic KITT Control Script<a class="headerlink" href="#implementing-a-basic-kitt-control-script" title="Link to this heading">#</a></h3>
+<p>You are asked to write a Python program to control your car connected over Bluetooth. The program should allow the car to be controlled using the keyboard w, a, s, and d keys. The e and q should start and stop the audio beacon. Also add a key to stop communication with KITT. The template script below will help define the class and some essential methods for communication in order for you to complete the <em>wasd</em> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">serial</span>
+<span class="kn">import</span> <span class="nn">keyboard</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">KITT</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">115200</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">baudrate</span><span class="p">,</span> <span class="n">rtscts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">send_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">set_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;M</span><span class="si">{</span><span class="n">speed</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;D</span><span class="si">{</span><span class="n">angle</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_speed</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_angle</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wasd</span><span class="p">(</span><span class="n">kitt</span><span class="p">):</span>
+    <span class="c1"># add your code</span>
+
+    <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">kitt_instance</span> <span class="o">=</span> <span class="n">KITT</span><span class="p">(</span><span class="s2">&quot;your_port_here&quot;</span><span class="p">)</span>
+        <span class="n">wasd</span><span class="p">(</span><span class="n">kitt_instance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>wasd Function</strong></p>
+<ul class="simple">
+<li><p>The wasd function is designed to be a continuous loop that reads keyboard events using the keyboard library which you loaded using import keyboard.</p></li>
+<li><p>When a key is pressed (KEY_DOWN), the function interprets the key and adjusts KITT’s speed and
+steering angle or toggles the beacon accordingly.</p></li>
+<li><p>The ‘w’ key accelerates KITT forward, ‘s’ stops KITT, ’a’ turns KITT left, and ‘d’ turns KITT
+right.</p></li>
+<li><p>The ‘e’ key turns on the beacon, and the ‘q’ key turns off the beacon.</p></li>
+<li><p>When a key is released (KEY_UP), you could define appropriate actions, e.g. stop KITT or reset the
+steering angle.</p></li>
+</ul>
+<section id="optional-extensions">
+<h4>Optional Extensions<a class="headerlink" href="#optional-extensions" title="Link to this heading">#</a></h4>
+<p>If you would like to go above and beyond with the task then below listed are a few tips which can help with extending the functionality of the program,</p>
+<ul class="simple">
+<li><p>Add a GUI: You could create a graphical user interface (GUI) for the program to make it more user-friendly. The GUI could display information about the car, such as its speed or battery level,
+and provide buttons for controlling the car. You can use the built-in tkinter module but you are free to use any other GUI module, for example PyGame, pyglet, or PyQt.</p></li>
+<li><p>Add error handling: Currently, if there is an error with the Bluetooth connection or the serial communication, the program will simply crash. You could add some error handling to handle
+these cases more gracefully, such as printing an error message and exiting the program.</p></li>
+<li><p>Add speed control: Currently, the program only supports moving the car forward or backward and turning left or right. You could add support for controlling the speed of the car, such as by
+sending different commands to the car depending on how long the user holds down the forward or backward keys.</p></li>
+<li><p>Add an emergency stop: KITT doesn’t have a brake; the 150 speed setting lets KITT roll out to standstill, which might take a long distance. Add an emergency brake by letting KITT drive
+backwards for a short period of time. (You should first detect if the previous speed setting caused KITT to move forward. You need to define a state variable to memorize the speed setting.)</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "apar1012/OpenEd",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Basics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Basics and Course Overview</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-overview">Brief Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kitt-basics">KITT Basics</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware">Hardware</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communicating-with-kitt">Communicating with KITT</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyserial">pySerial</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-kitt">Connecting to KITT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-kitt">Controlling KITT</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-kitt-control-script">Implementing a basic KITT Control Script</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-extensions">Optional Extensions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
