@@ -177,9 +177,10 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Setup and Preliminary Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basics.html">Basics and Course Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Module 1 - Connecting with and Controlling KITT</a></li>
 </ul>
 
     </div>
@@ -433,6 +434,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyserial">pySerial</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-kitt">Connecting to KITT</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-kitt">Controlling KITT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#on-off-keying-ook">On-Off Keying (OOK)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-kitt-control-script">Implementing a basic KITT Control Script</a><ul class="nav section-nav flex-column">
@@ -473,11 +475,11 @@ and start working with the car.</p>
 </div>
 <section id="kitt-basics">
 <h3>KITT Basics<a class="headerlink" href="#kitt-basics" title="Link to this heading">#</a></h3>
-<p>KITT is based on a repurposed toy car model, the Traxass E-MAXX. As seen in this <code class="xref std std-numref docutils literal notranslate"><span class="pre">KITT</span> <span class="pre">car</span> <span class="pre">figure</span></code> figure. There is a data sheet (here it is <span class="xref std std-doc">C:\Users\aparn\mybookname\EE2L21 KITT datasheet.pdf</span>) as well which gives an overview of the various components, such as the motor controller, LCD status indicator, ultrasonic sensors, and, most importantly, the communication module.</p>
+<p>KITT is based on a repurposed toy car model, the Traxass E-MAXX. As seen in this <a class="reference internal" href="#car-figure"><span class="std std-ref">KITT car</span></a> figure. There is a data sheet (here it is <span class="xref std std-doc">C:\Users\aparn\mybookname\EE2L21 KITT datasheet.pdf</span>) as well which gives an overview of the various components, such as the motor controller, LCD status indicator, ultrasonic sensors, and, most importantly, the communication module.</p>
 <figure class="align-default" id="car-figure">
 <img alt="_images/traxxas_e-maxx.png" src="_images/traxxas_e-maxx.png" />
 <figcaption>
-<p><span class="caption-text">Traxass E-MAXX along with it’s dimensions</span><a class="headerlink" href="#car-figure" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Traxass E-MAXX along with it’s dimensions</span><a class="headerlink" href="#car-figure" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="hardware">
@@ -487,7 +489,7 @@ and start working with the car.</p>
 <figure class="align-default" id="schematic-overview">
 <img alt="_images/communication_overview.png" src="_images/communication_overview.png" />
 <figcaption>
-<p><span class="caption-text">Schematic of communication with KITT and PC.</span><a class="headerlink" href="#schematic-overview" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Schematic of communication with KITT and PC.</span><a class="headerlink" href="#schematic-overview" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The Bluetooth communication with KITT consists of the following elements:</p>
@@ -496,11 +498,11 @@ and start working with the car.</p>
 <li><p>On PC: LM Technologies LM506, USB Bluetooth V4.0 dongle with Broadcom BCM20702 chipset, or the internal Bluetooth module of your laptop.</p></li>
 </ul>
 <p>You can use your computer’s internal Bluetooth connector to connect to KITT. If you want to use one of the lab computers or have trouble connecting to KITT from your PC (check if all drivers are installed), you can use the USB Bluetooth dongle.</p>
-<p>KITT has four LED’s, see figure <a class="reference internal" href="#leds"><span class="std std-ref">KITT LEDs</span></a>, their meaning is as follows:</p>
-<figure class="align-default" id="leds">
-<img alt="_images/KITT_leds.png" src="_images/KITT_leds.png" />
+<p>KITT has four LED’s, see figure <a class="reference internal" href="#kitt"><span class="std std-ref">KITT</span></a>, their meaning is as follows:</p>
+<figure class="align-default" id="kitt">
+<img alt="_images/figurejoin.png" src="_images/figurejoin.png" />
 <figcaption>
-<p><span class="caption-text">LEDs (KITT)</span><a class="headerlink" href="#leds" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">(KITT)</span><a class="headerlink" href="#kitt" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <ul class="simple">
@@ -528,9 +530,9 @@ and the baud-rate argument specifies the data rate in bits per second.</p></li>
 </section>
 <section id="connecting-to-kitt">
 <h4>Connecting to KITT<a class="headerlink" href="#connecting-to-kitt" title="Link to this heading">#</a></h4>
-<p>To start off with, connect the car to your computer over Bluetooth. Make sure you know the name of the Bluetooth port that the car is connected <a class="reference external" href="http://to.To">to.To</a> access the link in Python use,</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<p>To start off with, connect the car to your computer over Bluetooth. Make sure you know the name of the Bluetooth port that the car is connected to. To access the link in Python use,</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
 <p>serial_port is an instance of pySerial and this object can be used to manipulate KITT. The variable comport is the path to the comport assigned to the Bluetooth connection with KITT. Which
 comport specifically KITT is connected to can be found in your communication settings.
 Further information regarding the issues with connecting to the port via Bluetooth can be solved by referring to the Appendices.</p>
@@ -546,22 +548,93 @@ Further information regarding the issues with connecting to the port via Bluetoo
 <li><p>A motor speed command.</p></li>
 </ul>
 <p>These are controlled using Pulse width modulation.  Both commands are neutral at a setting of 150. The direction commands range from 200 (hard left) to 100 (hard right), and the motor commands range from 135 (backward) to 165 (forward).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_pwm_waveform</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t_end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a PWM signal.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        duty_cycle (float): The duty cycle of the PWM signal (percentage of time signal is high).</span>
+<span class="sd">        frequency (float): The frequency of the PWM signal in Hz.</span>
+<span class="sd">        t_end (float): The end time for the generated signal.</span>
+<span class="sd">        samples (int): Number of samples in the generated signal.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        t (numpy array): Time vector.</span>
+<span class="sd">        pwm_signal (numpy array): The PWM signal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">frequency</span>
+    <span class="n">on_time</span> <span class="o">=</span> <span class="n">period</span> <span class="o">*</span> <span class="p">(</span><span class="n">duty_cycle</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">pwm_signal</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">%</span> <span class="n">period</span> <span class="o">&lt;</span> <span class="n">on_time</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">pwm_signal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frequency</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Hz</span>
+<span class="n">duty_cycles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>  <span class="c1"># Different duty cycles</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1000x800 with 0 Axes&gt;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1000x800 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate and plot PWM for different duty cycles</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">duty_cycle</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">duty_cycles</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">pwm_signal</span> <span class="o">=</span> <span class="n">generate_pwm_waveform</span><span class="p">(</span><span class="n">duty_cycle</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">duty_cycles</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">pwm_signal</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s1">&#39;steps-post&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PWM Signal - Duty Cycle: </span><span class="si">{</span><span class="n">duty_cycle</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (seconds)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3d901e830fcd502b0a79b84c81450fa0dc7f26caf504a7761071aab219eaaabc.png" src="_images/3d901e830fcd502b0a79b84c81450fa0dc7f26caf504a7761071aab219eaaabc.png" />
+</div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>However, there is a dead zone for the motor commands, so KITT will likely not start moving forward until the PWM is set to about 153. It is recommended to experiment with these values, they are also battery-dependent. You should test the size of the drive command dead-band, verify that 150 is the middle position for steering (sometimes there is a deviation of ±2), and test the maximum left and right position.</p>
 </div>
 <p>All the commands are sent in binary and end with a new line character.</p>
 <p>To set direction to 169 and motor speed to 135, it can be done as follows,</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
 <p>Once you set the motor speed commands, KITT will continue to act on this until you either
 transmit a new motor speed command or reset the MCU using the button on KITT, which will set both
 direction and motor speed commands to the neutral value of 150. Do one of these two options after your
 tests since KITT will keep driving if you don’t.</p>
 </div>
 <p>Secondly, <em>Audio beacon</em> commands used are,</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
 <p>Be aware that the default code word for the beacon is 0x00000000, which means KITT will not start making noise on its own when the beacon is turned on. You should specify a code as described below before you can hear the beacon make noise. Furthermore, an arbitrary carrier frequency, bit frequency and repitition count can be used. (Generally, maximum of 30 kHz)</p>
 </div>
 <p>The repitition count formula is as follows,</p>
@@ -575,6 +648,56 @@ tests since KITT will keep driving if you don’t.</p>
 <p class="admonition-title">Note</p>
 <p>The status string reports the current drive commands, the ultrasonic sensor distance (cm), the battery voltage (mV), the audio status (on/off) and control parameters (code word,carrier-frequency, bit-frequency, repetition count). A sensor distance of 999 means overload (i.e., out of range)
 Also, remember that all the numbers provided here serve only as an example. It is up to you to determine what carrier frequency, code word, etc., best fits the goal of succeeding at the final challenge.</p>
+</div>
+</section>
+<section id="on-off-keying-ook">
+<h4>On-Off Keying (OOK)<a class="headerlink" href="#on-off-keying-ook" title="Link to this heading">#</a></h4>
+<p>It is a simple form of amplitude-shift keying (ASK), which is a modulation technique used in digital communication. OOK represents digital data as the presence or absence of a carrier wave. In its simplest form, “1” is represented by the presence of the carrier (an “on” state), and “0” is represented by its absence (an “off” state).</p>
+<p>To illustrate OOK using Python and matplotlib, I’ll generate a simple OOK signal based on a digital binary input string. This example will help visualize how OOK transmits digital data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_ook_signal</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bit_duration</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates an OOK signal from binary data.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        data (str): Binary string to be transmitted.</span>
+<span class="sd">        bit_duration (float): Duration of each bit in seconds.</span>
+<span class="sd">        sampling_rate (int): Number of samples per second.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        t (numpy array): Time vector for the signal.</span>
+<span class="sd">        ook_signal (numpy array): The OOK signal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Number of samples per bit</span>
+    <span class="n">samples_per_bit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bit_duration</span> <span class="o">*</span> <span class="n">sampling_rate</span><span class="p">)</span>
+    
+    <span class="c1"># Generate the signal</span>
+    <span class="n">ook_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span> <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">samples_per_bit</span><span class="p">)</span>
+    <span class="n">total_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ook_signal</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total_samples</span> <span class="o">/</span> <span class="n">sampling_rate</span><span class="p">,</span> <span class="n">total_samples</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">ook_signal</span>
+
+<span class="c1"># Binary data to be transmitted</span>
+<span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;1100101011110001&quot;</span>
+
+<span class="c1"># Generate OOK signal</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">ook_signal</span> <span class="o">=</span> <span class="n">generate_ook_signal</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ook_signal</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;OOK Signal Representation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (seconds)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5c42fb4c3163aade41e4f01f6e4193db930e231bb4e90ea2b2efaba6b722f584.png" src="_images/5c42fb4c3163aade41e4f01f6e4193db930e231bb4e90ea2b2efaba6b722f584.png" />
+</div>
 </div>
 <!-- As it is markdown, you can embed images, HTML, etc into your posts!
 
@@ -747,6 +870,7 @@ backwards for a short period of time. (You should first detect if the previous s
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyserial">pySerial</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-kitt">Connecting to KITT</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-kitt">Controlling KITT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#on-off-keying-ook">On-Off Keying (OOK)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-kitt-control-script">Implementing a basic KITT Control Script</a><ul class="nav section-nav flex-column">

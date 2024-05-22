@@ -5,6 +5,7 @@ dependencies:
   - scipy
   - matplotlib
   - statsmodels
+  - ipywidgets
   - pip:
     - pyserial
   - keyboard

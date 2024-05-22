@@ -176,7 +176,12 @@
                 </a>
             </li>
         </ul>
-        
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Setup and Preliminary Instructions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Basics and Course Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Module1.html">Module 1 - Connecting with and Controlling KITT</a></li>
+</ul>
+
     </div>
 </nav></div>
     </div>
@@ -470,36 +475,35 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">KITT</span><span class="p">:</span>
-<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">is_engine_on</span> <span class="o">=</span> <span class="kc">False</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">is_engine_on</span> <span class="o">=</span> <span class="kc">False</span>
+
+  <span class="k">def</span> <span class="nf">start_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">is_engine_on</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;s engine started.&quot;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">stop_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">is_engine_on</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;s engine stopped.&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+  <span class="n">car1</span> <span class="o">=</span> <span class="n">KITT</span><span class="p">(</span><span class="s2">&quot;TRX4&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span> <span class="c1"># Make the first instance of KITT</span>
+  <span class="n">car2</span> <span class="o">=</span> <span class="n">KITT</span><span class="p">(</span><span class="s2">&quot;Rustler&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span> <span class="c1"># Make the second instance of KITT</span>
+  <span class="n">car2</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span> <span class="c1"># Change the color of car2</span>
+  <span class="n">car1</span><span class="o">.</span><span class="n">start_engine</span><span class="p">()</span> <span class="c1"># Start the engine of car1</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">car1</span><span class="o">.</span><span class="n">is_engine_on</span><span class="p">)</span> <span class="c1"># Output: &quot;True&quot;</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">car1</span><span class="o">.</span><span class="n">model</span><span class="p">)</span> <span class="c1"># Output: &quot;TRX4&quot;</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">car1</span><span class="o">.</span><span class="n">color</span><span class="p">)</span> <span class="c1"># Output: &quot;black&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-    <span class="o">^</span>
-<span class="ne">IndentationError</span>: expected an indented block after class definition on line 1
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">start_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">is_engine_on</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;s engine started.&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">stop_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">is_engine_on</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;s engine stopped.&quot;</span><span class="p">)</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TRX4&#39;s engine started.
+True
+TRX4
+black
 </pre></div>
 </div>
 </div>
@@ -512,20 +516,6 @@ methods ’start_engine’ and ’stop_engine’ control the car’s engine.
 <strong>The __init__method</strong> is a special method called the constructor. It is automatically called when a new
 object is created. In this method, we initialize the model, color, and is_engine_on variables to the
 values passed.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<span class="n">car1</span> <span class="o">=</span> <span class="n">KITT</span><span class="p">(</span><span class="s2">&quot;TRX4&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span> <span class="c1"># Make the first instance of KITT</span>
-<span class="n">car2</span> <span class="o">=</span> <span class="n">KITT</span><span class="p">(</span><span class="s2">&quot;Rustler&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span> <span class="c1"># Make the second instance of KITT</span>
-<span class="n">car2</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span> <span class="c1"># Change the color of car2</span>
-<span class="n">car1</span><span class="o">.</span><span class="n">start_engine</span><span class="p">()</span> <span class="c1"># Start the engine of car1</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">car1</span><span class="o">.</span><span class="n">is_engine_on</span><span class="p">)</span> <span class="c1"># Output: &quot;True&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">car1</span><span class="o">.</span><span class="n">model</span><span class="p">)</span> <span class="c1"># Output: &quot;TRX4&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">car1</span><span class="o">.</span><span class="n">color</span><span class="p">)</span> <span class="c1"># Output: &quot;black&quot;</span>
-</pre></div>
-</div>
-</div>
-</div>
 <p>First, two instances of KITT are made. They are made from the same KITT class (template) but are a
 different model and color. These are stored as attributes to the instance (also called object). It is possible to change an attribute of an object after it has been made. In this example, the color of the second car is changed to blue. The state of the engine is also stored as an attribute. It is defaulted to False (the engine is off). Now, the engine of car 1 is started. When checked, car1 outputs that the engine is now set to on.</p>
 </section>

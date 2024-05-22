@@ -33,23 +33,31 @@ Throughout the project, you will write over 20 functions and a couple hundred li
 
 ## Classes and Objects
 
-```{code-cell}
-class KITT:
-def __init__(self, model, color):
-self.model = model
-self.color = color
-self.is_engine_on = False
-```
-```{code-cell}
-def start_engine(self):
-self.is_engine_on = True
-print(f"{self.model}'s engine started.")
-```
 
 ```{code-cell}
-def stop_engine(self):
-self.is_engine_on = False
-print(f"{self.model}'s engine stopped.")
+
+class KITT:
+  def __init__(self, model, color):
+    self.model = model
+    self.color = color
+    self.is_engine_on = False
+
+  def start_engine(self):
+    self.is_engine_on = True
+    print(f"{self.model}'s engine started.")
+
+  def stop_engine(self):
+    self.is_engine_on = False
+    print(f"{self.model}'s engine stopped.")
+
+if __name__ == "__main__":
+  car1 = KITT("TRX4", "black") # Make the first instance of KITT
+  car2 = KITT("Rustler", "red") # Make the second instance of KITT
+  car2.color = "blue" # Change the color of car2
+  car1.start_engine() # Start the engine of car1
+  print(car1.is_engine_on) # Output: "True"
+  print(car1.model) # Output: "TRX4"
+  print(car1.color) # Output: "black"
 ```
 
 **Attributes:** These are characteristics or properties that describe the state of an object. In the real world, consider attributes as the features defining an object. In the class definition, attributes are represented by variables. In the example, we have defined a class 'KITT' with attributes 'model', 'color', and 'is_engine_on'. Which are just some characteristic of KITT we could define.
@@ -61,16 +69,6 @@ methods ’start_engine’ and ’stop_engine’ control the car’s engine.
 object is created. In this method, we initialize the model, color, and is_engine_on variables to the
 values passed.
 
-```{code-cell}
-if __name__ == "__main__":
-car1 = KITT("TRX4", "black") # Make the first instance of KITT
-car2 = KITT("Rustler", "red") # Make the second instance of KITT
-car2.color = "blue" # Change the color of car2
-car1.start_engine() # Start the engine of car1
-print(car1.is_engine_on) # Output: "True"
-print(car1.model) # Output: "TRX4"
-print(car1.color) # Output: "black"
-```
 
 First, two instances of KITT are made. They are made from the same KITT class (template) but are a
 different model and color. These are stored as attributes to the instance (also called object). It is possible to change an attribute of an object after it has been made. In this example, the color of the second car is changed to blue. The state of the engine is also stored as an attribute. It is defaulted to False (the engine is off). Now, the engine of car 1 is started. When checked, car1 outputs that the engine is now set to on.

@@ -13,7 +13,7 @@ If you want to explore Python programming and Jupyter ecosystems beyond the exer
 
 The main programming language dealt with in this course Python. The base code for which follows for msot versions and can run independently on local devices as well using the Live code option in this site. 
 
-```{Interactive Pages - use your browser!}
+```{admonition} Interactive Pages - use your browser!
 Live code is a feature provided in this website in order to directly run the scripts here without having to move to different websites for the same. 
 ```
 
@@ -30,4 +30,5 @@ Python environments/virtual environments are used for project isolation and depe
 the installation of a specific dependency version. 
 In this project a specific environment is used to access all the packages and environment variables. So after the virtual environment is created, the installation can be verified and can exit when required. 
 
+## Super
 

@@ -18,17 +18,25 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-class KITT:
-def __init__(self, model, color):
-self.model = model
-self.color = color
-self.is_engine_on = False
+if __name__ == "__main__":
+  car1 = KITT("TRX4", "black") # Make the first instance of KITT
+  car2 = KITT("Rustler", "red") # Make the second instance of KITT
+  car2.color = "blue" # Change the color of car2
+  car1.start_engine() # Start the engine of car1
+  print(car1.is_engine_on) # Output: "True"
+  print(car1.model) # Output: "TRX4"
+  print(car1.color) # Output: "black"
 ------------------
 
 
-[1;36m  Cell [1;32mIn[1], line 2[1;36m[0m
-[1;33m    def __init__(self, model, color):[0m
-[1;37m    ^[0m
-[1;31mIndentationError[0m[1;31m:[0m expected an indented block after class definition on line 1
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [1;32mIn[4], line 5[0m
+[0;32m      3[0m car2 [38;5;241m=[39m KITT([38;5;124m"[39m[38;5;124mRustler[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mred[39m[38;5;124m"[39m) [38;5;66;03m# Make the second instance of KITT[39;00m
+[0;32m      4[0m car2[38;5;241m.[39mcolor [38;5;241m=[39m [38;5;124m"[39m[38;5;124mblue[39m[38;5;124m"[39m [38;5;66;03m# Change the color of car2[39;00m
+[1;32m----> 5[0m car1[38;5;241m.[39mstart_engine() [38;5;66;03m# Start the engine of car1[39;00m
+[0;32m      6[0m [38;5;28mprint[39m(car1[38;5;241m.[39mis_engine_on) [38;5;66;03m# Output: "True"[39;00m
+[0;32m      7[0m [38;5;28mprint[39m(car1[38;5;241m.[39mmodel) [38;5;66;03m# Output: "TRX4"[39;00m
 
+[1;31mAttributeError[0m: 'KITT' object has no attribute 'start_engine'
 
