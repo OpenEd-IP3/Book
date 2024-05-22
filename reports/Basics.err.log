@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\site-packages\nbclient\client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\site-packages\jupyter_core\utils\__init__.py", line 173, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\site-packages\nbclient\client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\site-packages\nbclient\client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\aparn\anaconda3\envs\opened\Lib\site-packages\nbclient\client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+if __name__ == "__main__":
+  car1 = KITT("TRX4", "black") # Make the first instance of KITT
+  car2 = KITT("Rustler", "red") # Make the second instance of KITT
+  car2.color = "blue" # Change the color of car2
+  car1.start_engine() # Start the engine of car1
+  print(car1.is_engine_on) # Output: "True"
+  print(car1.model) # Output: "TRX4"
+  print(car1.color) # Output: "black"
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [1;32mIn[4], line 5[0m
+[0;32m      3[0m car2 [38;5;241m=[39m KITT([38;5;124m"[39m[38;5;124mRustler[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mred[39m[38;5;124m"[39m) [38;5;66;03m# Make the second instance of KITT[39;00m
+[0;32m      4[0m car2[38;5;241m.[39mcolor [38;5;241m=[39m [38;5;124m"[39m[38;5;124mblue[39m[38;5;124m"[39m [38;5;66;03m# Change the color of car2[39;00m
+[1;32m----> 5[0m car1[38;5;241m.[39mstart_engine() [38;5;66;03m# Start the engine of car1[39;00m
+[0;32m      6[0m [38;5;28mprint[39m(car1[38;5;241m.[39mis_engine_on) [38;5;66;03m# Output: "True"[39;00m
+[0;32m      7[0m [38;5;28mprint[39m(car1[38;5;241m.[39mmodel) [38;5;66;03m# Output: "TRX4"[39;00m
+
+[1;31mAttributeError[0m: 'KITT' object has no attribute 'start_engine'
+
