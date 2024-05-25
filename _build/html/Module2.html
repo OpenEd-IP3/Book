@@ -1,0 +1,770 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Module 2 - Reading KITT sensor data &#8212; Autonomous Driving Challenge</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Module2';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Module%203.html" />
+    <link rel="prev" title="Module 1 - Connecting with and Controlling KITT" href="Module1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/truck.jpg" class="logo__image only-light" alt="Autonomous Driving Challenge - Home"/>
+    <script>document.write(`<img src="_static/truck.jpg" class="logo__image only-dark" alt="Autonomous Driving Challenge - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction to IP3: Autonomous Driving Challenge
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Setup and Preliminary Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basics.html">Basics and Course Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Module1.html">Module 1 - Connecting with and Controlling KITT</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Module 2 - Reading KITT sensor data</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/apar1012/OpenEd/main?urlpath=tree/Module2.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/apar1012/OpenEd" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/apar1012/OpenEd/issues/new?title=Issue%20on%20page%20%2FModule2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Module2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Module 2 - Reading KITT sensor data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-distance-sensors">The Distance Sensors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-reading-assignment">Distance reading Assignment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-microphones">The Microphones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microphone-recording-assignment">Microphone Recording Assignment</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="module-2-reading-kitt-sensor-data">
+<h1>Module 2 - Reading KITT sensor data<a class="headerlink" href="#module-2-reading-kitt-sensor-data" title="Link to this heading">#</a></h1>
+<p>KITT can only drive autonomously if it is able to sense its environment. Two types of sensors are provided:
+(i) Two distance sensors mounted on the front of KITT, and
+(ii) Five microphones located around the field which can record the audio transmitted by the beacon on top of KITT and send it to the PC.</p>
+<p>The idea of this task is to understand how to read out distance sensors in front of KITT to avoid obstacles and reading information from the microphones placed in the field.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Click to show note<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Windows 10 users make sure that you install ASIO4ALL and make sure you use a build of PyAudio that supports ASIO. Of course needless to say, your Python IDE needs to be ready!</p>
+</div>
+</details><section id="the-distance-sensors">
+<h2>The Distance Sensors<a class="headerlink" href="#the-distance-sensors" title="Link to this heading">#</a></h2>
+<p>KITT has two ultrasonic sensors on the front left and right. These ultrasonic distance sensors consists of the SRF02 module, the datasheet of this module is also on Brightspace. The module works by transmitting a pulse train at 40 kHz and then listening to its echo. The time until the first echo is received is measured and converted to a distance in centimeters. According to the SRF02 datasheet, the time between two observations (the cycle period) has to be at least 66 ms. The modules are connected to the MCU, and the interface is pre-programmed. The cycle time is fixed at 70 ms, and in this period, the left and right sensors are started one after the other. The measurements are stored in a buffer on the MCU. A new measurement overwrites the older one.</p>
+<p>To have a good understanding of the limitations of the system, you have to determine the working of the ultrasonic sensors. The practical realization of the SRF02 modules is simple and adequate for its purpose, which is for parking sensors. The accuracy of the estimated distance is affected by many factors, such as the mounting of the sensors in combination with the type of beams they generate and the environment. Moreover, the distance measured by the sensors must be relayed to the computer’s control system. The various communication delays are at the origin of additional errors like KITT having already moved some distance before the new distance measurement reaches your PC.</p>
+<p><strong>Status Commands:</strong> The distance measurements are included in the output of the status request command,</p>
+<p>An isolated version of the same command containing only distances can be obtained using,</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Click to show<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Similarly, b’Sv\n’ makes KITT send the voltage of the battery pack, and b’V\n’ shows version infor-
+mation of KITT.</p>
+</div>
+</details><p>Here again the data sent by KITT should be received with,</p>
+</section>
+<section id="distance-reading-assignment">
+<h2>Distance reading Assignment<a class="headerlink" href="#distance-reading-assignment" title="Link to this heading">#</a></h2>
+<p>To develop an accurate car model the dynamics of the car needs to be included like the velocity, sensitivity to commands and so on. Whilst driving in a straight line towards a wall, you can derive position from the parking sensor data. Further, in the final challenge, you will have to detect obstacles that could be in the path of KITT using the distance sensors. In this assignment, you should add sensor reading methods to the script from module 1. The received data should not just be stored in bulk but in a convenient format for later recall.</p>
+<p><strong>Tasks</strong></p>
+<p>Using the previously explained commands, have KITT transmit its various pieces of information. You can do this by adding a read_sensors method to the KITT class. Assign a key to show the distances measured. Display all the received data in an organized way in the terminal</p>
+<p><strong>Task 1: Static measurements</strong></p>
+<p>Perform measurements with the vehicle at stand-still. Introduce various obstacle configurations. Determine the accuracy of the sensors, their maximal range, and the field of view (beam angle).</p>
+<p><strong>Task 2: Delay estimates</strong></p>
+<p>Make an estimate of the delays for getting an update on the distance, and figure out how they impact the performance of the control chain. The question is: how old is an estimate by the time you receive it? The useful time measurement methods mentioned in <span class="xref std std-ref">Basics.md#Useful Modules</span>.</p>
+<p><strong>Task 3: Dynamic Measurements</strong></p>
+<p>Perform distance measurements with KITT in motion (driving to the wall) and analyze the shape of the distance versus time. Is the plot continuous? Look at the plot for left and right sensor values, what do you see? Can you verify the 70 ms cycle time? Can you use these plots to estimate velocity accurately?</p>
+<p><strong>Task 4: Measurement Data analysis and interpretation</strong></p>
+<p>Analyze the measured data with an eye on the possibility of compensating for the possible errors. Implement some strategies to calibrate KITT.</p>
+<div class="highlight-{note}{Bonus notranslate"><div class="highlight"><pre><span></span>
+It is advisable to store all the old distance data in a list inside the KITT class. This will be convenient during the final challenge, where the route planning might need old measurements to determine the position of objects. It will also help with characterizing the distance sensors. A good way of doing this is by initializing an empty list in the __init__ phase. Then, every time the sensor is read, you append this list with [time, left_dist, right_dist].
+
+</pre></div>
+</div>
+</section>
+<section id="the-microphones">
+<h2>The Microphones<a class="headerlink" href="#the-microphones" title="Link to this heading">#</a></h2>
+<p>Four microphones of the field are installed around its corners, and a fifth microphone is placed between two of the microphones at the edge of the field, at a level higher than the other four.</p>
+<p>The appropriate sound card driver must be used to use the microphone array. The soundcard used in EPO-4 is a PreSonus AudioBox 1818VSL. On Linux, OSX (except the ARM version), and Windows
+11, the sound card works out of the box. On Windows 10, it is necessary to install <a class="reference external" href="https://www.asio4all.org/">ASIO4ALL</a> and a build of <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio">PyAudio</a> compiled with ASIO support. If you use the Pipfile provided on Brightspace, the correct version of PyAudio should already be installed, but you still need to install ASIO4ALL manually.</p>
+<p>A typical laptop will have many possible audio devices, for example the built-in microphone, a Bluetooth headset, and the AudioBox 1818VSL used in EPO-4. To initialize the microphone array, the correct audio device should be specified. This short script will list the index and names of all audio devices visible to PyAudio.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyaudio</span>
+<span class="n">pyaudio_handle</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="o">.</span><span class="n">PyAudio</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pyaudio_handle</span><span class="o">.</span><span class="n">get_device_count</span><span class="p">()):</span>
+    <span class="n">device_info</span> <span class="o">=</span> <span class="n">pyaudio_handle</span><span class="o">.</span><span class="n">get_device_info_by_index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">device_info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 Microsoft Sound Mapper - Input
+1 External Microphone (Realtek(R)
+2 Microphone Array (Intel® Smart 
+3 Microphone (Steam Streaming Mic
+4 Microsoft Sound Mapper - Output
+5 Headphones (Realtek(R) Audio)
+6 Speakers (Realtek(R) Audio)
+7 Speakers (Steam Streaming Speak
+8 Speakers (Steam Streaming Micro
+9 Speakers 1 (Realtek HD Audio output with SST)
+10 Speakers 2 (Realtek HD Audio output with SST)
+11 PC Speaker (Realtek HD Audio output with SST)
+12 Microphone (Realtek HD Audio Mic input)
+13 Headphones 1 (Realtek HD Audio 2nd output with SST)
+14 Headphones 2 (Realtek HD Audio 2nd output with SST)
+15 PC Speaker (Realtek HD Audio 2nd output with SST)
+16 Stereo Mix (Realtek HD Audio Stereo input)
+17 Microphone (Steam Streaming Microphone Wave)
+18 Speakers (Steam Streaming Microphone Wave)
+19 Microphone Array 1 ()
+20 Microphone Array 2 ()
+21 Microphone Array 3 ()
+22 Input (Steam Streaming Speakers Wave)
+23 Speakers (Steam Streaming Speakers Wave)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Click to Show</p>
+<p>On Windows 10, make sure to use the audio device index that has ASIO in the name. Other audio devices may be using the legacy MME or WDM Windows drivers, which may not support more than 2 synchronous
+audio channels.</p>
+</div>
+<p>The microphone array must first be initialized. When doing so, the sampling frequency that will be used must be specified. This sampling frequency will either be 48 kHz or 44.1 kHz, depending on the type of audio device. Initializing the microphone array at device index device_index with a sampling frequency of Fs is done as,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># From the list of devices, add the desired index and the appropriate Fs value for the same.</span>
+
+<span class="n">stream</span> <span class="o">=</span> <span class="n">pyaudio_handle</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_device_index</span><span class="o">=</span><span class="n">device_index</span><span class="p">,</span>
+                            <span class="n">channels</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                            <span class="nb">format</span><span class="o">=</span><span class="n">pyaudio</span><span class="o">.</span><span class="n">paInt16</span><span class="p">,</span>
+                            <span class="n">rate</span><span class="o">=</span><span class="n">Fs</span><span class="p">,</span>
+                            <span class="nb">input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># From the list of devices, add the desired index and the appropriate Fs value for the same.</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">pyaudio_handle</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_device_index</span><span class="o">=</span><span class="n">device_index</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                             <span class="n">channels</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                             <span class="nb">format</span><span class="o">=</span><span class="n">pyaudio</span><span class="o">.</span><span class="n">paInt16</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                             <span class="n">rate</span><span class="o">=</span><span class="n">Fs</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>                             <span class="nb">input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;device_index&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>To make a recording, the length of the recording must be specified. This must be specified as the number of audio frames to be recorded. The result will be a <em>bytes</em> object. Each audio frame will contain 5 samples, one for each microphone. Each sample contains 2 bytes, since we specified 16-bit audio. So, the return value of recording N frames is 10N bytes. To get a recording of N frames, one can run the
+following command:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c1"># To convert it into a numpy array</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int16&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>At this point, the microphone data is interleaved: data[0] contains the first sample of microphone 0, data[1] contains the first sample of microphone 1, data[2] contains the first sample of microphone 2, and so on until data[5] contains the second sample of microphone 0. Table 4.1 explains the concept more visually. This interleaved data stream should be deinterleaved into 5 streams, one for each microphone.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>data[0]</p></th>
+<th class="head"><p>data[1]</p></th>
+<th class="head"><p>data[2]</p></th>
+<th class="head"><p>data[3]</p></th>
+<th class="head"><p>data[4]</p></th>
+<th class="head"><p>data[5]</p></th>
+<th class="head"><p>data[6]</p></th>
+<th class="head"><p>data[7]</p></th>
+<th class="head"><p>…</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mic 0</p></td>
+<td><p>mic 1</p></td>
+<td><p>mic 2</p></td>
+<td><p>mic 3</p></td>
+<td><p>mic 4</p></td>
+<td><p>mic 0</p></td>
+<td><p>mic 1</p></td>
+<td><p>mic 2</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>frame 0</p></td>
+<td><p>frame 0</p></td>
+<td><p>frame 0</p></td>
+<td><p>frame 0</p></td>
+<td><p>frame 0</p></td>
+<td><p>frame 1</p></td>
+<td><p>frame 1</p></td>
+<td><p>frame 1</p></td>
+<td><p>…</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="microphone-recording-assignment">
+<h2>Microphone Recording Assignment<a class="headerlink" href="#microphone-recording-assignment" title="Link to this heading">#</a></h2>
+<p>The final part of communicating with KITT is using the 5 microphones. This will form an important part of the final challenge, a good implementation is thus essential. Again, you should add a method like record into the KITT class, with an input N. This should turn on the beacon, make a recording of N sec, deconvolve the recording into its separate channels, store it for later processing, and turn off the beacon. Make a function to visualize the recordings; this will prove valuable in debugging.</p>
+<p><strong>Task 1</strong></p>
+<p>Initialize the microphone array and record one of your team members clapping near the microphones one after another. Separate the data stream of each microphone from the interleaved data. Plot the data of all five channels, allowing you to identify which channel of your recording represents which microphone.</p>
+<p><strong>Task 2</strong></p>
+<p>Turn on KITT’s beacon and record your results. Can you see the waveform of the transmission? Compare the waveform of the recording to an ideal OOK of your code. What can you see and what do you infer from this?</p>
+<p><strong>Task 3</strong></p>
+<p>Repeat the setup of Task 2, putting KITT nearer to one microphone than to others. Can you derive from the waveforms near which microphone KITT was placed? Show the plots you made and discuss your results and conclusions derived from them.</p>
+<p><em>Bonus Tasks - Optional</em></p>
+<ul class="simple">
+<li><p>See if you can automate selecting the correct PyAudio device index. The correct device index changes from one computer to another and can sometimes even change on the same computer after a reboot. So, it is worth your time to make a program that can automatically select the right device index.</p></li>
+<li><p>Implement start-up sanity checks: some process which you can run after you arrive at the test field, so that you can quickly check the microphone connections and audio levels.</p></li>
+<li><p>Explore PyAudio’s callback mode. This manual describes what is called ‘blocking mode’. The stream.read() function will block your program until the requested number of frames has been received from the sound card. You can instead specify a callback function to process new audio frames as they arrive. If done carefully, this will allow your program to respond faster to new microphone samples, and enable you to drive while recording. You can read more about call-back mode in the official <a class="reference external" href="https://people.csail.mit.edu/hubert/pyaudio/docs/">PyAudio documentation</a></p></li>
+</ul>
+<div class="admonition-click-to-show admonition">
+<p class="admonition-title">Click to show</p>
+<p>Make sure your code is strudy and can cope up with the timing aspects as it needs to run in parallel with what we can anticipate from the measurement setup.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "apar1012/OpenEd",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Module1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Module 1 - Connecting with and Controlling KITT</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Module%203.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-distance-sensors">The Distance Sensors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-reading-assignment">Distance reading Assignment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-microphones">The Microphones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microphone-recording-assignment">Microphone Recording Assignment</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

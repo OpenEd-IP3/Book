@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Module1';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Module 2 - Reading KITT sensor data" href="Module2.html" />
     <link rel="prev" title="Basics and Course Overview" href="Basics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -181,6 +182,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Setup and Preliminary Instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Basics.html">Basics and Course Overview</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Module 1 - Connecting with and Controlling KITT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Module2.html">Module 2 - Reading KITT sensor data</a></li>
 </ul>
 
     </div>
@@ -531,8 +533,13 @@ and the baud-rate argument specifies the data rate in bits per second.</p></li>
 <section id="connecting-to-kitt">
 <h4>Connecting to KITT<a class="headerlink" href="#connecting-to-kitt" title="Link to this heading">#</a></h4>
 <p>To start off with, connect the car to your computer over Bluetooth. Make sure you know the name of the Bluetooth port that the car is connected to. To access the link in Python use,</p>
+<p>Connecting to a serial port over Bluetooth can be pretty tricky. Windows users, refer to Appendix B. Linux users can use ‘# rfcomm bind rfcomm0 MAC_ADDRESS’; there is also a section about it on the Arch <a class="reference external" href="https://wiki.archlinux.org/title/Bluetooth#Bluetooth_serial">Linux wiki</a>. The MAC address of KITT always ends with the code printed on its label. For example, if the label reads DA:84, the MAC will end with xx:xx:xx:xx:DA:84.
+To find out which serial ports are available, you can use the list_ports tool of pySerial. Run the
+following in a shell:</p>
+<p>python -m serial.tools.list_ports</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
+<p>Click to Show</p>
 <p>serial_port is an instance of pySerial and this object can be used to manipulate KITT. The variable comport is the path to the comport assigned to the Bluetooth connection with KITT. Which
 comport specifically KITT is connected to can be found in your communication settings.
 Further information regarding the issues with connecting to the port via Bluetooth can be solved by referring to the Appendices.</p>
@@ -621,6 +628,7 @@ Further information regarding the issues with connecting to the port via Bluetoo
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>Click to Show</p>
 <p>However, there is a dead zone for the motor commands, so KITT will likely not start moving forward until the PWM is set to about 153. It is recommended to experiment with these values, they are also battery-dependent. You should test the size of the drive command dead-band, verify that 150 is the middle position for steering (sometimes there is a deviation of ±2), and test the maximum left and right position.</p>
 </div>
 <p>All the commands are sent in binary and end with a new line character.</p>
@@ -844,6 +852,15 @@ backwards for a short period of time. (You should first detect if the previous s
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Basics and Course Overview</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="Module2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Module 2 - Reading KITT sensor data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
