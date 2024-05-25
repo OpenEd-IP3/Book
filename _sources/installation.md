@@ -30,5 +30,5 @@ Python environments/virtual environments are used for project isolation and depe
 the installation of a specific dependency version. 
 In this project a specific environment is used to access all the packages and environment variables. So after the virtual environment is created, the installation can be verified and can exit when required. 
 
-## Super
+
 
