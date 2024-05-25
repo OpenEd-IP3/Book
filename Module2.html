@@ -28,13 +28,13 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
@@ -42,7 +42,7 @@
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
@@ -448,11 +448,7 @@ document.write(`
 <p>The idea of this task is to understand how to read out distance sensors in front of KITT to avoid obstacles and reading information from the microphones placed in the field.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
-Click to show note<div class="sd-summary-down docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="sd-summary-up docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="sd-summary-content sd-card-body docutils">
+<span class="sd-summary-text">Click to show note</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <p class="sd-card-text">Windows 10 users make sure that you install ASIO4ALL and make sure you use a build of PyAudio that supports ASIO. Of course needless to say, your Python IDE needs to be ready!</p>
 </div>
 </details><section id="the-distance-sensors">
@@ -463,11 +459,7 @@ Click to show note<div class="sd-summary-down docutils">
 <p>An isolated version of the same command containing only distances can be obtained using,</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
-Click to show<div class="sd-summary-down docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
-<div class="sd-summary-up docutils">
-<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
-</summary><div class="sd-summary-content sd-card-body docutils">
+<span class="sd-summary-text">Click to show</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <p class="sd-card-text">Similarly, b’Sv\n’ makes KITT send the voltage of the battery pack, and b’V\n’ shows version infor-
 mation of KITT.</p>
 </div>
@@ -510,29 +502,27 @@ It is advisable to store all the old distance data in a list inside the KITT cla
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 Microsoft Sound Mapper - Input
-1 External Microphone (Realtek(R)
-2 Microphone Array (Intel® Smart 
-3 Microphone (Steam Streaming Mic
-4 Microsoft Sound Mapper - Output
-5 Headphones (Realtek(R) Audio)
-6 Speakers (Realtek(R) Audio)
-7 Speakers (Steam Streaming Speak
-8 Speakers (Steam Streaming Micro
-9 Speakers 1 (Realtek HD Audio output with SST)
-10 Speakers 2 (Realtek HD Audio output with SST)
-11 PC Speaker (Realtek HD Audio output with SST)
-12 Microphone (Realtek HD Audio Mic input)
-13 Headphones 1 (Realtek HD Audio 2nd output with SST)
-14 Headphones 2 (Realtek HD Audio 2nd output with SST)
-15 PC Speaker (Realtek HD Audio 2nd output with SST)
-16 Stereo Mix (Realtek HD Audio Stereo input)
-17 Microphone (Steam Streaming Microphone Wave)
-18 Speakers (Steam Streaming Microphone Wave)
-19 Microphone Array 1 ()
-20 Microphone Array 2 ()
-21 Microphone Array 3 ()
-22 Input (Steam Streaming Speakers Wave)
-23 Speakers (Steam Streaming Speakers Wave)
+1 Microphone Array (Intel® Smart 
+2 Microphone (Steam Streaming Mic
+3 Microsoft Sound Mapper - Output
+4 Speakers (Realtek(R) Audio)
+5 Speakers (Steam Streaming Speak
+6 Speakers (Steam Streaming Micro
+7 Speakers 1 (Realtek HD Audio output with SST)
+8 Speakers 2 (Realtek HD Audio output with SST)
+9 PC Speaker (Realtek HD Audio output with SST)
+10 Microphone (Realtek HD Audio Mic input)
+11 Headphones 1 (Realtek HD Audio 2nd output with SST)
+12 Headphones 2 (Realtek HD Audio 2nd output with SST)
+13 PC Speaker (Realtek HD Audio 2nd output with SST)
+14 Stereo Mix (Realtek HD Audio Stereo input)
+15 Microphone (Steam Streaming Microphone Wave)
+16 Speakers (Steam Streaming Microphone Wave)
+17 Microphone Array 1 ()
+18 Microphone Array 2 ()
+19 Microphone Array 3 ()
+20 Input (Steam Streaming Speakers Wave)
+21 Speakers (Steam Streaming Speakers Wave)
 </pre></div>
 </div>
 </div>
