@@ -7,3 +7,4 @@ python==3.11
 scipy
 statsmodels
 ipywidgets
+pyaudio==0.2.11
