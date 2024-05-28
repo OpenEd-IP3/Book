@@ -89,6 +89,21 @@ different model and color. These are stored as attributes to the instance (also 
 ## Useful Modules {#Useful Modules}
 
 
+# My Jupyter Book with Pyodide
+
+```{code-cell} python
+import numpy as np
+import pandas as pd
+
+# Create a sample numpy array and pandas DataFrame
+array = np.array([1, 2, 3, 4, 5])
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+print("Numpy array:", array)
+print("Pandas DataFrame:")
+print(df)
+```
+
 
 
 

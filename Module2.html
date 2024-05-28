@@ -58,6 +58,7 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Module2';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="Module%203.html" />
@@ -179,6 +180,7 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Setup and Preliminary Instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Basics.html">Basics and Course Overview</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="Module1.html">Module 1 - Connecting with and Controlling KITT</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Module 2 - Reading KITT sensor data</a></li>
 </ul>
@@ -232,24 +234,6 @@
     <i class="fas fa-rocket"></i>
   </button>
   <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://mybinder.org/v2/gh/OpenEd-IP3/Book/main?urlpath=tree/Module2.ipynb" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch onBinder"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="btn__text-container">Binder</span>
-</a>
-</li>
-      
       
       
       
@@ -501,28 +485,13 @@ It is advisable to store all the old distance data in a list inside the KITT cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 Microsoft Sound Mapper - Input
-1 Microphone Array (Intel® Smart 
-2 Microphone (Steam Streaming Mic
-3 Microsoft Sound Mapper - Output
-4 Speakers (Realtek(R) Audio)
-5 Speakers (Steam Streaming Speak
-6 Speakers (Steam Streaming Micro
-7 Speakers 1 (Realtek HD Audio output with SST)
-8 Speakers 2 (Realtek HD Audio output with SST)
-9 PC Speaker (Realtek HD Audio output with SST)
-10 Microphone (Realtek HD Audio Mic input)
-11 Headphones 1 (Realtek HD Audio 2nd output with SST)
-12 Headphones 2 (Realtek HD Audio 2nd output with SST)
-13 PC Speaker (Realtek HD Audio 2nd output with SST)
-14 Stereo Mix (Realtek HD Audio Stereo input)
-15 Microphone (Steam Streaming Microphone Wave)
-16 Speakers (Steam Streaming Microphone Wave)
-17 Microphone Array 1 ()
-18 Microphone Array 2 ()
-19 Microphone Array 3 ()
-20 Input (Steam Streaming Speakers Wave)
-21 Speakers (Steam Streaming Speakers Wave)
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">Kernel</span> <span class="n">crashed</span> <span class="k">while</span> <span class="n">executing</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">current</span> <span class="n">cell</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">previous</span> <span class="n">cell</span><span class="o">.</span> 
+
+<span class="n">Please</span> <span class="n">review</span> <span class="n">the</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">cell</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">to</span> <span class="n">identify</span> <span class="n">a</span> <span class="n">possible</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">failure</span><span class="o">.</span> 
+
+<span class="n">Click</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;https://aka.ms/vscodeJupyterKernelCrash&#39;</span><span class="o">&gt;</span><span class="n">here</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">info</span><span class="o">.</span> 
+
+<span class="n">View</span> <span class="n">Jupyter</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;command:jupyter.viewOutput&#39;</span><span class="o">&gt;</span><span class="n">log</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">further</span> <span class="n">details</span><span class="o">.</span>
 </pre></div>
 </div>
 </div>
@@ -543,21 +512,6 @@ audio channels.</p>
                             <span class="nb">format</span><span class="o">=</span><span class="n">pyaudio</span><span class="o">.</span><span class="n">paInt16</span><span class="p">,</span>
                             <span class="n">rate</span><span class="o">=</span><span class="n">Fs</span><span class="p">,</span>
                             <span class="nb">input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># From the list of devices, add the desired index and the appropriate Fs value for the same.</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">pyaudio_handle</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_device_index</span><span class="o">=</span><span class="n">device_index</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>                             <span class="n">channels</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>                             <span class="nb">format</span><span class="o">=</span><span class="n">pyaudio</span><span class="o">.</span><span class="n">paInt16</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>                             <span class="n">rate</span><span class="o">=</span><span class="n">Fs</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>                             <span class="nb">input</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;device_index&#39; is not defined
 </pre></div>
 </div>
 </div>
