@@ -8,5 +8,5 @@ scipy
 statsmodels
 ipywidgets
 pyaudio==0.2.11
---extra-index-url https://gitlab.tudelft.nl/api/v4/projects/11239/packages/pypi/simple
-sphinx-thebe ~= 0.9.9
+# --extra-index-url https://gitlab.tudelft.nl/api/v4/projects/11239/packages/pypi/simple
+# sphinx-thebe ~= 0.9.9
