@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Audio Channel measurements &#8212; Autonomous Driving Challenge</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Audio Channel';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Module 3: Locating KITT Using Audio Communication" href="Module%203.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/truck.jpg" class="logo__image only-light" alt="Autonomous Driving Challenge - Home"/>
+    <script>document.write(`<img src="_static/truck.jpg" class="logo__image only-dark" alt="Autonomous Driving Challenge - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction to IP3: Autonomous Driving Challenge
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Setup and Preliminary Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basics.html">Basics and Course Overview</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Module1.html">Module 1 - Connecting with and Controlling KITT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Module2.html">Module 2 - Reading KITT sensor data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Module%203.html">Module 3: Locating KITT Using Audio Communication</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Audio Channel measurements</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OpenEd-IP3/Book/main?urlpath=tree/Audio Channel.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OpenEd-IP3/Book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OpenEd-IP3/Book/issues/new?title=Issue%20on%20page%20%2FAudio Channel.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Audio Channel.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Audio Channel measurements</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-audio-beacon">Introduction to Audio Beacon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#timer-frequencies">Timer Frequencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-setting-of-the-audio-beacon">Default Setting of the Audio Beacon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-considerations">Design Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tdoa-estimation">TDOA Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-outline">Algorithm Outline</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="audio-channel-measurements">
+<h1>Audio Channel measurements<a class="headerlink" href="#audio-channel-measurements" title="Link to this heading">#</a></h1>
+<p><strong>Insight</strong></p>
+<ul class="simple">
+<li><p>How does a real audio channel typically look like?</p></li>
+<li><p>Is it well estimated using the deconvolution algorithm(s)?</p></li>
+<li><p>Which transmit sequence should be used?</p></li>
+<li><p>If we compare two channel estimates, can we estimate a difference in propagation time? And how does that translate into physical distance?</p></li>
+</ul>
+<p>These insights and results are very vital for this project.</p>
+<section id="introduction-to-audio-beacon">
+<h2>Introduction to Audio Beacon<a class="headerlink" href="#introduction-to-audio-beacon" title="Link to this heading">#</a></h2>
+<p>The audio beacon, once switched on, continuously transmits a sequence of pulses. It is controlled by a programmable microcontroller. It is possible to change the number of pulses, duration of each pulse, the sequence itself, and the period after which the sequence is repeated. The pulse sequence is a modulated binary code sequence with “on-off keying” (OOK). If a bit in the sequence is 0, nothing is transmitted; if the bit is 1, a modulation carrier frequency is transmitted during a certain period.</p>
+<p>Besides the actual bit sequence (code word), the parameters that determine the signal are:</p>
+<ul class="simple">
+<li><p>Length of the code sequence (number of bits; parameter <code class="docutils literal notranslate"><span class="pre">NCodebits</span></code>), at most 64 bits;</p></li>
+<li><p>Modulation carrier frequency (parameter <code class="docutils literal notranslate"><span class="pre">Timer0</span></code>), at most 30 kHz, although this is probably beyond the specs of the loudspeaker and microphones;</p></li>
+<li><p>Duration of a single bit (parameter <code class="docutils literal notranslate"><span class="pre">Timer1</span></code>), this defines the rate at which the modulation carrier signal is switched on or off by the bits in the code word;</p></li>
+<li><p>Repetition rate of the bit sequence (parameter <code class="docutils literal notranslate"><span class="pre">Timer3</span></code>). After the code sequence has been played over the loudspeaker, it will be silent for a certain period, and then the sequence is transmitted again, at a rate determined by Timer 3.</p></li>
+</ul>
+<p>To see what these different parameters mean, consider the image below:</p>
+<figure class="align-default" id="beacon-figure">
+<img alt="_images/Beacon.png" src="_images/Beacon.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Beacon description</span><a class="headerlink" href="#beacon-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In the audio beacon in EPO4, these parameters can be modified by sending specific commands to the car, and this programs the microcontroller that generates the audio signal.</p>
+<p>The maximal repetition rate is 10 Hz (corresponding to a period of 100 ms). If 64 bits are used at the lowest rate of Timer 1 (1 kHz), then the duration of the sequence will be 64 ms. You will have to choose settings such that the channel impulse response dies out during the remaining period of silence, before the next pulse sequence starts.</p>
+<p>Possible values for the Timer parameters are listed in the table below; instead of the actual values, the Timer Index values are used. In the microcontroller, instead of setting the frequencies of the various timers directly, one would instead select the corresponding index (0 through 9).</p>
+</section>
+<section id="timer-frequencies">
+<h2>Timer Frequencies<a class="headerlink" href="#timer-frequencies" title="Link to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Timer Index</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+<th class="head"><p>6</p></th>
+<th class="head"><p>7</p></th>
+<th class="head"><p>8</p></th>
+<th class="head"><p>9</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Carrier Freq (Timer0)</p></td>
+<td><p>5 kHz</p></td>
+<td><p>10 kHz</p></td>
+<td><p>15 kHz</p></td>
+<td><p>20 kHz</p></td>
+<td><p>25 kHz</p></td>
+<td><p>30 kHz</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Code Freq (Timer1)</p></td>
+<td><p>1.0 kHz</p></td>
+<td><p>1.5 kHz</p></td>
+<td><p>2.0 kHz</p></td>
+<td><p>2.5 kHz</p></td>
+<td><p>3.0 kHz</p></td>
+<td><p>3.5 kHz</p></td>
+<td><p>4.0 kHz</p></td>
+<td><p>4.5 kHz</p></td>
+<td><p>5.0 kHz</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Repeat Freq (Timer3)</p></td>
+<td><p>1 Hz</p></td>
+<td><p>2 Hz</p></td>
+<td><p>3 Hz</p></td>
+<td><p>4 Hz</p></td>
+<td><p>5 Hz</p></td>
+<td><p>6 Hz</p></td>
+<td><p>7 Hz</p></td>
+<td><p>8 Hz</p></td>
+<td><p>9 Hz</p></td>
+<td><p>10 Hz</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="default-setting-of-the-audio-beacon">
+<h2>Default Setting of the Audio Beacon<a class="headerlink" href="#default-setting-of-the-audio-beacon" title="Link to this heading">#</a></h2>
+<p>The default setting of the audio beacon is a code sequence bit-stream of 32 bits with:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Parameter</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Code Length</p></td>
+<td><p>32 bits</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NCODEBITS</span> <span class="pre">=</span> <span class="pre">32</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Carrier Frequency</p></td>
+<td><p>20 kHz</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIMER0_INDEX</span> <span class="pre">=</span> <span class="pre">3</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Code Frequency</p></td>
+<td><p>5 kHz</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIMER1_INDEX</span> <span class="pre">=</span> <span class="pre">8</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Repeat Frequency</p></td>
+<td><p>2 Hz</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIMER3_INDEX</span> <span class="pre">=</span> <span class="pre">2</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Code Word (hex)</p></td>
+<td><p>92340f0f</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p>These are example values and you cannot assume that these are “optimal”!</p>
+</section>
+<section id="design-considerations">
+<h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>It is important to choose settings that will give an optimal channel estimate in the presence of noise and interference. This will generally require long sequences. However, we have to wait until one or two pulse sequences have been received before we can do a channel estimation, and this will from the basis for the location estimate. Faster updates will result in better tracking. For this, it is important to have short sequences! [Activity: determine the maximum duration of a single pulse sequence. Which code parameters determine this?]</p></li>
+<li><p>Furthermore, we need to plan for a “guard interval” of silence between two sequences, long enough for the channel response to return to zero. For a large room and a maximal distance of 5 to 6 meters between the beacon and the microphone, what is that duration (in ms)? This determines the maximal repitition rate that you can hope to achieve.</p></li>
+<li><p>Another aspect to consider is the dynamic range. The microphone gain will have to be set such that it will not clip even if the transmitter is very close to it, because we want to avoid nonlinear effects. But, in another extreme, over a distance of 5 to 6 meters, the audio signal is already significantly attenuated and may drown in the noise. However, we will have to be able to estimate the channel even over such distances, also in the presence of a nasty interferer close to the microphone. For this, we need long sequences, or to average over several repetitions of the sequence, so that the noise is averaged out and you remain with the channel impulse response.</p></li>
+<li><p>We found that the best channel estimation results are obtained if the probing signal is wideband, i.e. covers a large bandwidth. Which timer parameter determines the bandwidth of the signal?</p></li>
+<li><p>We also looked at the effect of carrier frequencies. Which parameter determines this? Is there a reason to use very high carrier frequencies?</p></li>
+<li><p>What sample rate should be used? Considerations are the Nyquist condition, but also the computational complexity (at a higher rate you will need to process more samples <span class="math notranslate nohighlight">\(N\)</span> and the channel length <span class="math notranslate nohighlight">\(L\)</span> is also higher) and the time resolution at which you can detect peaks in the impulse response.</p></li>
+<li><p>Finally, we have to think of the practical situation where the microphone signal contains beacon signals of more than one user. Consider what happens if you do the deconvolution using a reference signal that does not match the transmitted signal. E.g., in the Matched Filter, we correlate the received signal with our own code sequence, and hopefully the correlation of someone else’s code with our own code is small. Thus, the filter will filter out the other signals.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot; Fs_TX = 44100</span>
+<span class="sd">Nbits = 64</span>
+<span class="sd">Timer0 = 3</span>
+<span class="sd">Timer1 = 8</span>
+<span class="sd">Timer3 = 2</span>
+<span class="sd">code = 0x92340f0faaaa4321</span>
+
+<span class="sd">x, _ = refsignal(Nbits, Timer0, Timer1, Timer3, code, Fs_TX)</span>
+<span class="sd">X = # your code here</span>
+
+<span class="sd">period = # your code here</span>
+<span class="sd">t = # your code here</span>
+<span class="sd">f = # your code here</span>
+
+<span class="sd">fig, ax = plt.subplots(2, 1, figsize=(10, 7))</span>
+
+<span class="sd">ax[0].plot(t, x)</span>
+<span class="sd">ax[0].set_title(&quot;Audio Beacon in the Time Domain&quot;)</span>
+<span class="sd">ax[0].set_xlabel(&quot;Time [s]&quot;)</span>
+<span class="sd">ax[0].set_ylabel(&quot;Magnitude&quot;)</span>
+<span class="sd">ax[0].set_xlim([0, 0.015])</span>
+<span class="sd">ax[0].set_ylim([0, 2])</span>
+
+<span class="sd">ax[1].plot(f, np.real(X))</span>
+<span class="sd">ax[1].set_title(&quot;Audio Beacon in the Frequency Domain&quot;)</span>
+<span class="sd">ax[1].set_xlabel(&quot;Frequency [kHz]&quot;)</span>
+<span class="sd">ax[1].set_ylabel(&quot;Magnitude&quot;)</span>
+<span class="sd">ax[1].set_xlim([0, Fs_TX / 1000])</span>
+<span class="sd">ax[1].set_ylim([0, max(np.real(X))])</span>
+
+<span class="sd">fig.tight_layout() &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39; Fs_TX = 44100\nNbits = 64\nTimer0 = 3\nTimer1 = 8\nTimer3 = 2\ncode = 0x92340f0faaaa4321\n\nx, _ = refsignal(Nbits, Timer0, Timer1, Timer3, code, Fs_TX)\nX = # your code here\n\nperiod = # your code here\nt = # your code here\nf = # your code here\n\nfig, ax = plt.subplots(2, 1, figsize=(10, 7))\n\nax[0].plot(t, x)\nax[0].set_title(&quot;Audio Beacon in the Time Domain&quot;)\nax[0].set_xlabel(&quot;Time [s]&quot;)\nax[0].set_ylabel(&quot;Magnitude&quot;)\nax[0].set_xlim([0, 0.015])\nax[0].set_ylim([0, 2])\n\nax[1].plot(f, np.real(X))\nax[1].set_title(&quot;Audio Beacon in the Frequency Domain&quot;)\nax[1].set_xlabel(&quot;Frequency [kHz]&quot;)\nax[1].set_ylabel(&quot;Magnitude&quot;)\nax[1].set_xlim([0, Fs_TX / 1000])\nax[1].set_ylim([0, max(np.real(X))])\n\nfig.tight_layout() &#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tdoa-estimation">
+<h2>TDOA Estimation<a class="headerlink" href="#tdoa-estimation" title="Link to this heading">#</a></h2>
+<p>In the EPO4 project, we will try to locate a car using an audio beacon. We will use time-difference of arrival (TDOA) measurements made at microphones positioned at known locations. The audio beacon transmits signals which are received by up to 5 microphones. Depending on the distance to each microphone, the signal arrives a little bit earlier or later, and we can convert that into physical distances. For each pair of microphones, we will compute this TDOA, or the physical difference in propogation distance. If we have a large enough number of microphones (4 should work…), then we can calculate the <span class="math notranslate nohighlight">\((x,y)\)</span> location of the transmitter using a Least Squares algorithm. You will do this in the EPO4 project.</p>
+<p>Before we can do localization, we have to work on this question: Given the impulse responses measured by two microphones, how is the Time Difference of Arrival (TDOA) estimated? That is the topic of this assignment.</p>
+<section id="algorithm-outline">
+<h3>Algorithm Outline<a class="headerlink" href="#algorithm-outline" title="Link to this heading">#</a></h3>
+<p>The audio beacon transmits a continous stream of pulses, using a certain repetition period <span class="math notranslate nohighlight">\(T_R\)</span> (specified via the <code class="docutils literal notranslate"><span class="pre">Timer3</span></code> parameter, e.g., 100 ms). If we are not synchronized to the beacon, there is no guarantee that an entire pulse sequence is captured in a period <span class="math notranslate nohighlight">\(T_R\)</span>: you might have the tail of one sequence, and the head of the next. It is probably easire to capture samples for at least <span class="math notranslate nohighlight">\(2T_R\)</span> seconds, i.e., 2 intervals.</p>
+<p>We aim to apply the deconvolution algorithm to a single full interval in the received data. So the next step is to synchronize to the start of a received pulse in our data. For this Labday, we will do this step by hand, although in EPO4 it will have to be automated:</p>
+<ul class="simple">
+<li><p>Locate the start of a pulse</p></li>
+<li><p>Isolate the entire pulse; try to remove as much of the “silent period” as possible.</p></li>
+<li><p>Since we have two microphones, we have to crop two received signals. Make sure you crop them on precisely the same intervals.</p></li>
+</ul>
+<p>To guide the cropping, you will need to consider what is the duration of the beacon pulse, how much longer can it be extended due to the convolution by the audio channel, and how long is the silent period. Use your beacon parameters, consider a maximal propagation distance of 5 m, and convert all times to number of samples.</p>
+<p>For an automated method, we would look for a silent period of at least some duration <span class="math notranslate nohighlight">\(T_I\)</span>, followed by a sample that is above some threshold. As threshold, we could take 50% of the maximal amplitude in the data. To be sure, we would include some of the silent interval in the cropped signal.</p>
+<p>Next, apply your deconvolution algorithm to the cropped received data. We can use two methods:</p>
+<ul class="simple">
+<li><p>deconvolve using a reference signal. A suitable reference signal is obtained from a recording at 1 cm.</p></li>
+<li><p>deconvolve one microphone signal using the signal from the second microphone (preferably, the strongest one).</p></li>
+</ul>
+<p>Using the first method, you obtain two channel estimates. Locate the peaks in both estimates: their time difference is the TDOA.
+For the second method, you have to locate only a single peak. Its time index is the TDOA. But you have to be careful: the TDOA could be negative, and if you used deconvolution algorithm, the channel estimate is periodic and the peak could occur at the far end of the estimate.</p>
+<p>Finally, convert the TDOA into a physical distance (knowing the speed of sound).</p>
+<figure class="align-default" id="tdoa-figure">
+<img alt="_images/TDOA.png" src="_images/TDOA.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">TDOA Estimation</span><a class="headerlink" href="#tdoa-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The image above shows TDOA estimation: for the impulse response <span class="math notranslate nohighlight">\(h_1[n]\)</span> of the first microphone, find the first peak after the silent interval, then go to the second microphone <span class="math notranslate nohighlight">\(h_2[n]\)</span> and look for a matching peak in the search window.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "OpenEd-IP3/Book",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Module%203.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Module 3: Locating KITT Using Audio Communication</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-audio-beacon">Introduction to Audio Beacon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#timer-frequencies">Timer Frequencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-setting-of-the-audio-beacon">Default Setting of the Audio Beacon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-considerations">Design Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tdoa-estimation">TDOA Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-outline">Algorithm Outline</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
