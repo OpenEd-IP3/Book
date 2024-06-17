@@ -16,4 +16,6 @@ dependencies:
   - pip:
     - pyserial
     - jupyter-book
+    - tk==0.1.0
+
 
