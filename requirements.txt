@@ -3,11 +3,10 @@ matplotlib
 numpy
 pyserial
 keyboard
-python==3.11
 scipy
 statsmodels
 ipywidgets
 pyaudio==0.2.11
 tk==0.1.0
-# --extra-index-url https://gitlab.tudelft.nl/api/v4/projects/11239/packages/pypi/simple
-# sphinx-thebe ~= 0.9.9
+
+
