@@ -12,7 +12,7 @@ class Serial:
     def __init__(self, port, baudrate, rtscts=True, x=240, y=30, theta=np.pi/2):
         """Initializes the Serial class with port, baudrate, and initial state, and starts the dynamics thread."""
         # logging.basicConfig(level=logging.WARNING)
-        logging.basicConfig(filename=f'KITT_Simulator/logs/serialSimulator.log', level=logging.DEBUG)
+        logging.basicConfig(filename='KITT_Simulator/logs/serialSimulator.log', level=logging.DEBUG)
         logging.info("Starting Serial Communication")
 
         self.port = port
@@ -33,7 +33,7 @@ class Serial:
         logging.info("Serial: Starting Dynamics Thread")
         self.update_thread = threading.Thread(target=self.run_dynamics)
         self.update_thread.daemon = True
-        self.stop_thread = False
+        self.stop_thread = threading.Event()
         self.update_thread.start()
 
     def write(self, command):
@@ -55,19 +55,28 @@ class Serial:
 
     def run_dynamics(self):
         """Continuously updates the state using dynamics every 50ms."""
-        while not self.stop_thread:
+        update_freq = 30
+        while not self.stop_thread.is_set():
+            start_time = time.time()
             logging.debug("Running dynamics update")
             self.dynamics.update_state()
             logging.debug("Updating GUI")
             logging.debug(f"X: {self.state.x}, Y: {self.state.y}, Theta: {self.state.theta}")
             self.gui.update()  # Update the GUI with the new state
-            time.sleep(0.05)
+            delta_time = (time.time() - start_time) / 1000
+            if delta_time > 0:
+                time.sleep(1/30 - delta_time)
+            else:
+                logging.warning("Dynamics thread running too slow.")
 
     def close(self):
         """Closes the serial connection."""
+        logging.info("Closing Serial Communication")
+        self.stop_thread.set()
+        self.update_thread.join()
         self.__del__()
 
     def __del__(self):
         """Destructor to clean up when the Serial object is deleted."""
-        logging.info("Closing Serial Communication")
-        self.stop_thread = True
+        logging.info("Serial port closed")
+        self.close()
