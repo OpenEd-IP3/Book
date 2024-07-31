@@ -24,3 +24,6 @@ class SharedState:
         if cls._instance is None:
             cls._instance = State(x, y, theta)
         return cls._instance
+    
+    def __del__(cls):
+        cls._instance = None
