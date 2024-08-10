@@ -55,30 +55,30 @@ Before each challenge you are allowed to measure the field and the position of t
 KITT may stop everywhere and as many times as needed. There is no time limit except for the fact that everything, including preparation and cleaning up, should happen within $30$ minutes.  Needless to say, you must use the audio beacon for locating KITT, and the ultrasonic sensors for obstacle detection (no "open loop" solutions allowed).
 
 **Challenge A** (60 points)
-    - KITT drives from the starting position to a specific point A in the field.
+- KITT drives from the starting position to a specific point A in the field.
         
-    - Once KITT reaches the destination it must stop and the PC must give a signal.
+- Once KITT reaches the destination it must stop and the PC must give a signal.
 
 **Challenge B** (10 points)
-    - KITT drives from the starting position to point A via another point in the field.
-    - When KITT reaches the waypoint (B) the examiner must have the time to measure the distance; you should let the car stop for 10 seconds. 
-    - When KITT reaches the destination (A) it must stop and the PC must give a signal.
+- KITT drives from the starting position to point A via another point in the field.
+- When KITT reaches the waypoint (B) the examiner must have the time to measure the distance; you should let the car stop for 10 seconds. 
+- When KITT reaches the destination (A) it must stop and the PC must give a signal.
 
 **Challenge C** (10 points)
-    - KITT drives from the starting position to a specific point A in the field.
-    - When KITT reaches the destination (A) it must stop and the PC must give a signal.
-    - There is an obstacle on route (two paper bias on top of each other) that has to be avoided.
-    - When KITT finds the obstacle, its position must be remembered.
+- KITT drives from the starting position to a specific point A in the field.
+- When KITT reaches the destination (A) it must stop and the PC must give a signal.
+- There is an obstacle on route (two paper bias on top of each other) that has to be avoided.
+- When KITT finds the obstacle, its position must be remembered.
 
 **Challenge D** (8 points)
-    - KITT drives from the starting position to a specific point A in the field.
-    - When KITT reaches the destination it must stop and the PC must give the signal.
-    - There is another car involved (stationary but with working beacon), this car has to be avoided. 
-    - There is an obstacle on route (two paper bins on top of each other) that has to be avoided.
+- KITT drives from the starting position to a specific point A in the field.
+- When KITT reaches the destination it must stop and the PC must give the signal.
+- There is another car involved (stationary but with working beacon), this car has to be avoided. 
+- There is an obstacle on route (two paper bins on top of each other) that has to be avoided.
 
 **Free Challenge** (7 points)
-    - Invent your own challenge and impress us! For example, drive form A to B to C where after B you will need to drive backwards to make the turn.
-    - Points awarded depending on the difficulty and creativity of the task.
+- Invent your own challenge and impress us! For example, drive form A to B to C where after B you will need to drive backwards to make the turn.
+- Points awarded depending on the difficulty and creativity of the task.
 
 **Grading**
 
