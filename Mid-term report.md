@@ -36,7 +36,7 @@ The modules suggested questions that you can answer in your report ---do this in
 
 Here are some general directions on the structure and contents of your report (mid-term and final report).  For the mid-term report, the main focus will be on three sections: sensor data, localization, and car model; other chapters such as system integration and conclusions are not yet relevant and can be omitted.
 
-Keep a clear structure and writing style. Make sure you give sufficient factual information (in particular if things don't work). The language should {\em not} be informal.  Keep things concise, ``bla-bla'' is not appreciated. If you make claims such as ``something is the best'', first provide evidence (or at least a motivation, or a reference to literature).
+Keep a clear structure and writing style. Make sure you give sufficient factual information (in particular if things don't work). The language should *not* be informal.  Keep things concise, ''bla-bla'' is not appreciated. If you make claims such as ``something is the best'', first provide evidence (or at least a motivation, or a reference to literature).
 
 **Cover:** Make sure you specify names, study number, group number, and date.
 
