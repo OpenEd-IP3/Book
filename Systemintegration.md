@@ -105,7 +105,7 @@ The figure below is a example depiction of the Challenges (*On the old televisio
 
 ## Final report
 
- Instructions for the final report are similar to those of the midterm report (see Mid-term report chapter).  Aim for a **well-structured**, compact yet complete report of about 30 pages (plus Python code in an appendix).  Do not forget to systematically report on testing/verification: how do you test (each subsystem, and the entire system), what are the results from the test, what do you conclude.  Include the results of the final challenge in the report as well. Note that the final challenge is not a test, rather it is a demonstration.  With extensive testing, these results won't be a surprise to the reader!
+ Instructions for the final report are similar to those of the midterm report (see Mid-term report chapter). Aim for a **well-structured**, compact yet complete report of about 30 pages (plus Python code in an appendix). Do not forget to systematically report on testing/verification: how do you test (each subsystem, and the entire system), what are the results from the test, what do you conclude. Include the results of the final challenge in the report as well. Note that the final challenge is not a test, rather it is a demonstration. With extensive testing, these results won't be a surprise to the reader!
     
 The report is judged by committee members that are not indepth familiar with EPO-4, or the manual. Your report has to be sufficiently self-contained.
     
@@ -113,20 +113,11 @@ The submission deadline is listed on Brightspace, typically it is one day after 
 
 ## Final presentation and discussion
 
- In week 10 (consult Brightspace for the exact date), you present and
-    defend your final report in front of an examination committee.  The
-    examinators will ask questions about your design choices and aspects
-    of teamwork.  This will be part of your grade.
+ In week 10 (consult Brightspace for the exact date), you present and defend your final report in front of an examination committee. The examinators will ask questions about your design choices and aspects of teamwork.  This will be part of your grade.
 
-    The presentation lasts at most 5 min.  This is too short to have all
-    team members presenting.  Focus on the highlights and special
-    features of the design, and mention the work breakdown and
-    distribution of tasks to team members.
+The presentation lasts at most 5 min. This is too short to have all team members presenting.  Focus on the highlights and special features of the design, and mention the work breakdown and distribution of tasks to team members.
 
-    The examination will last about 30 min.  After the examination you
-    will be asked to fill in a peer review form.  Individual grades are
-    differentiated depending on staff observations and the outcome of
-    the peer review.
+The examination will last about 30 min.  After the examination you will be asked to fill in a peer review form.  Individual grades are differentiated depending on staff observations and the outcome of the peer review.
 
 
 
