@@ -14,9 +14,9 @@ Besides the actual bit sequence (a 32 bit code word), the parameters that determ
 - Bit freqeuncy (parameter *Freq1* specified in Hz), this defines the rate at which the modulation carrier signal is switched on or off by bits in the code word, i.e., determines the duration of a single bit (and indirectly the bandwidth of the generated signal).
 - Repetition count of the bit sequence (parameter *Count3*, an integer), this specifies the number of bits the beacon waits before transmitting the code again. The minimum value is 32 (otherwise a new code is transmitted before the previous one is finished). The resulting repetition frequency is, 
 
-\[
-repetition\_frequency = \frac{bit\_frequency}{repetition\_count}
-\]
+<p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?repetition\_frequency=\frac{bit\_frequency}{repetition\_count}" alt="Equation">
+</p>
 
 For example, with a value of 5 kHz of the bit frequency, a repition count of 2500 gives a repetition count of 2500 gives a repetition freqeuncy of 2 kHz. You will probably want to have a higher repetition freqeuncy.
 
