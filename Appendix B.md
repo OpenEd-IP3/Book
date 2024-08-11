@@ -12,6 +12,6 @@ In the figure below, the steps can be seen how KITT can be connected to a PC wit
 
 ### Steps how to connect KITT to the PC
 
-![Step 1](Book/Step1.PNG) ![Step 2](Book/Step2.PNG) ![Step 3](Book/Step3.PNG)
-![Step 4](Book/Step4.PNG) ![Step 5](Book/Step6Arrow.PNG) ![Step 6](Book/Step7.PNG)
+![Step 1](Step1.PNG) ![Step 2](Step2.PNG) ![Step 3](Step3.PNG)
+![Step 4](Step4.PNG) ![Step 5](Step6Arrow.PNG) ![Step 6](Step7.PNG)
 
