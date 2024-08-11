@@ -11,33 +11,14 @@ In the figure below, the steps can be seen how KITT can be connected to a PC wit
 - Step 6, the correct port to take note of is the one listed as *Outgoing*. This is the port you have to use in your setup.
 
 <p align="center">
-    <figure>
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-            <div>
-                <img src="Step1.png" alt="Step 1" style="width: 33%;">
-                <figcaption>Step 1</figcaption>
-            </div>
-            <div>
-                <img src="Step2.png" alt="Step 2" style="width: 33%;">
-                <figcaption>Step 2</figcaption>
-            </div>
-            <div>
-                <img src="Step3.png" alt="Step 3" style="width: 33%;">
-                <figcaption>Step 3</figcaption>
-            </div>
-            <div>
-                <img src="Step4.png" alt="Step 4" style="width: 33%;">
-                <figcaption>Step 4</figcaption>
-            </div>
-            <div>
-                <img src="Step6Arrow.png" alt="Step 5" style="width: 33%;">
-                <figcaption>Step 5</figcaption>
-            </div>
-            <div>
-                <img src="Step7.png" alt="Step 6" style="width: 33%;">
-                <figcaption>Step 6</figcaption>
-            </div>
-        </div>
-        <figcaption>Steps how to connect KITT to the PC</figcaption>
-    </figure>
+    <img src="Step1.png" alt="Step 1" width="33%">
+    <img src="Step2.png" alt="Step 2" width="33%">
+    <img src="Step3.png" alt="Step 3" width="33%">
+    <img src="Step4.png" alt="Step 4" width="33%">
+    <img src="Step6Arrow.png" alt="Step 5" width="33%">
+    <img src="Step7.png" alt="Step 6" width="33%">
 </p>
+<p align="center">
+    Steps how to connect KITT to the PC
+</p>
+
