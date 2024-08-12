@@ -74,9 +74,9 @@ class Serial:
         logging.info("Closing Serial Communication")
         self.stop_thread.set()
         self.update_thread.join()
-        SharedState.__del__()
+        SharedState.reset()
         self.__del__()
 
     def __del__(self):
         """Destructor to clean up when the Serial object is deleted."""
-        pass
+        self.close(self)
