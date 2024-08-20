@@ -11,7 +11,6 @@ class Serial:
     """Class to simulate serial communication with the car."""
     def __init__(self, port, baudrate, rtscts=True, x=240, y=30, theta=np.pi/2):
         """Initializes the Serial class with port, baudrate, and initial state, and starts the dynamics thread."""
-        # logging.basicConfig(level=logging.WARNING)
         logging.basicConfig(filename='KITT_Simulator/logs/serialSimulator.log', level=logging.DEBUG)
         logging.info("Starting Serial Communication")
 
@@ -63,20 +62,21 @@ class Serial:
             logging.debug("Updating GUI")
             logging.debug(f"X: {self.state.x}, Y: {self.state.y}, Theta: {self.state.theta}")
             self.gui.update()  # Update the GUI with the new state
-            delta_time = (time.time() - start_time) / 1000
+            delta_time = (time.time() - start_time) / 1000 - 1 / update_freq
             if delta_time > 0:
-                time.sleep(1/30 - delta_time)
+                time.sleep(delta_time)
             else:
                 logging.warning("Dynamics thread running too slow.")
 
     def close(self):
         """Closes the serial connection."""
         logging.info("Closing Serial Communication")
-        self.stop_thread.set()
-        self.update_thread.join()
+        if self.update_thread.is_alive():
+            self.stop_thread.set()
+            self.update_thread.join()
         SharedState.reset()
-        self.__del__()
+        logging.info("Serial Communication closed.")
 
     def __del__(self):
         """Destructor to clean up when the Serial object is deleted."""
-        self.close(self)
+        self.close()

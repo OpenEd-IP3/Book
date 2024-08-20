@@ -19,11 +19,17 @@ class State:
 class SharedState:
     """Singleton class to manage shared state with thread safety."""
     _instance = None
+
     def __new__(cls, x=240, y=30, theta=np.pi/2):
         """Creates a new instance of State if none exists, otherwise returns the existing one."""
         if cls._instance is None:
             cls._instance = State(x, y, theta)
         return cls._instance
+    
+    @classmethod
+    def reset(cls):
+        """Resets the singleton instance."""
+        cls._instance = None
     
     def __del__(cls):
         cls._instance = None
