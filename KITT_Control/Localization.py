@@ -1,128 +1,150 @@
-import numpy as np
-from scipy.fft import fft, ifft
 from scipy.io import wavfile
-import time
-import matplotlib.pyplot as plt
-import scipy
+import logging
+import scipy.signal as signal
+from scipy.fft import fft, ifft
 
 class Localization:
-
     def __init__(self, recording, debug=False):
-
-        self.debug = debug
+        """
+        Initializes the Localization class with the given recordings.
+        
+        Parameters:
+        - recording: A 2D numpy array where each row is a recording from one microphone.
+        - debug: Boolean to enable debug logging.
+        """
         self.recording = recording
-
-        self.Fs, self.refSignal = wavfile.read("Recordings/refSignal.wav") # reference signal
-        self.refSignal = self.refSignal / max(self.refSignal) # normalize
-        self.refSignal = self.refSignal[0:1500] # cut to one pulse (maybe 4000 is better)
-
-        self.bitcode = 'F3824D4D'  # transmitted bits [-]
-        self.F_carrier = 5000  # carrier frequency [Hz]
-        self.F_bit = 2000  # bit frequency [Hz]
-        self.C_repetition = 20  # repetition count [-]
-
-        self.xyCar = [481, 481] # car location [m]
-
-        self.localization()
+        self.num_pulses = 40
+        self.debug = debug
+        
+        # Load the reference signal
+        self.Fs, self.refSignal = wavfile.read("files/student_recording/reference.wav")  # Reference signal
+        self.refSignal = self.refSignal[200000:230000, 0]  # Use only one channel
+        self.refSignal = self.refSignal / np.max(np.abs(self.refSignal))  # Normalize the reference signal
+        
+        # Define the microphone positions in cm
+        self.mic_positions = np.array([[0, 0], [460, 0], [460, 460], [0, 460], [230, 0]])
+        
+        if debug:
+            logging.basicConfig(level=logging.DEBUG)
+        else:
+            logging.basicConfig(level=logging.INFO)
+        
+        # Localize the sound source for each pulse
+        self.localizations = self.localization()
 
     def localization(self):
         """
-        Perform localization based on time difference of arrival (TDOA) measurements.
-
-        This method calculates the TDOA between the recorded audio signals from different microphones
-        and uses these measurements to estimate the coordinates of the source of the sound.
-
+        Localize the sound source by processing the recordings.
+        
         Returns:
-            None
+        - x_car: Estimated x-coordinate of the sound source.
+        - y_car: Estimated y-coordinate of the sound source.
         """
+        pulse_length = len(self.recording[:, 0]) // self.num_pulses  # Calculate the length of each pulse segment
+        print(f"--- Pulse Length: {pulse_length}, {len(self.recording[:, 0])} ---")
 
-        D12 = self.TDOA(self.recording[:, 0], self.recording[:, 1])
-        D13 = self.TDOA(self.recording[:, 0], self.recording[:, 3])
-        D14 = self.TDOA(self.recording[:, 0], self.recording[:, 2])
-        D15 = self.TDOA(self.recording[:, 0], self.recording[:, 4])
+        tdoa_12 = []
+        tdoa_13 = []
+        tdoa_14 = []
+
+        for i in range(self.num_pulses):
+            start = i * pulse_length
+            end = start + pulse_length
+            
+            # Extract the pulse from each recording
+            pulse_rec = self.recording[start:end, :]
+
+            # Calculate TDOA between different microphone pairs using the extracted pulse
+            D12 = self.TDOA(pulse_rec[:, 0], pulse_rec[:, 1])
+            D13 = self.TDOA(pulse_rec[:, 0], pulse_rec[:, 2])
+            D14 = self.TDOA(pulse_rec[:, 0], pulse_rec[:, 3])
+
+            tdoa_12.append(D12)
+            tdoa_13.append(D13)
+            tdoa_14.append(D14)
+
+            if self.debug:
+                logging.debug(f"Pulse {i + 1}: TDOA12={D12}, TDOA13={D13}, TDOA14={D14}")
+
+        sorted_tdoa_12 = np.sort(tdoa_12)
+        sorted_tdoa_13 = np.sort(tdoa_13)
+        sorted_tdoa_14 = np.sort(tdoa_14)
+        plt.plot(sorted_tdoa_12, label="TDOA12")
+        plt.show()
+
+        avg_D12 = np.mean(sorted_tdoa_12[10:-10]) * 34300
+        avg_D13 = np.mean(sorted_tdoa_13[10:-10]) * 34300
+        avg_D14 = np.mean(sorted_tdoa_14[10:-10]) * 34300
 
         if self.debug:
-            print(f"D12: {D12}")
-            print(f"D13: {D13}")
-            print(f"D14: {D14}")
-            print(f"D15: {D15}")
+            logging.debug(f"Averaged TDOA12: {avg_D12}, TDOA13: {avg_D13}, TDOA14: {avg_D14}")
 
-        self.xyCar = self.coordinate_2d(D12, D13, D14)
-        print(f"Location of car: {self.xyCar}")
+        # Calculate the 2D coordinates based on the averaged TDOA measurements
+        x_car, y_car = self.coordinate_2d(avg_D12, avg_D13, avg_D14)
+        
+        logging.info(f"Final localized position: x={x_car}, y={y_car}")
+        return x_car, y_car
 
     def TDOA(self, rec1, rec2):
+        """
+        Calculate the Time Difference of Arrival (TDOA) between two recordings.
+        
+        Parameters:
+        - rec1: Extracted pulse recording from the first microphone.
+        - rec2: Extracted pulse recording from the second microphone.
+        
+        Returns:
+        - TDOA: The estimated time difference of arrival between the two recordings.
+        """
+        # Cross-correlate the reference signal with each extracted pulse
+        corr1 = self.ch3(rec1, self.refSignal)
+        corr2 = self.ch3(rec2, self.refSignal)
+        
+        # Find the lag with the maximum correlation value (which corresponds to the arrival time)
+        lag1 = np.argmax(corr1) - (len(self.refSignal) - 1)
+        lag2 = np.argmax(corr2) - (len(self.refSignal) - 1)
+        
+        # Calculate TDOA
+        TDOA = (lag2 - lag1) / self.Fs  # Convert lag difference to time difference in seconds
 
-        rec1 = rec1/max(rec1)   # normalize
-        rec2 = rec2/max(rec2)   # normalize
-
+        # plt.plot(corr1, alpha=0.5)
+        # plt.plot(corr2, alpha=0.5)
+        # plt.scatter(lag1 + len(self.refSignal) - 1, corr1[np.argmax(corr1)], color='red')
+        # plt.scatter(lag2 + len(self.refSignal) - 1, corr2[np.argmax(corr2)], color='red')
+        # plt.show()
+        
         if self.debug:
-            plt.plot(range(len(rec1)), rec1)
-            plt.plot(range(len(rec2)), rec2)
-            plt.title("Recordings")
-            plt.show()
-
-        dists = np.zeros(self.C_repetition) # initialize array for distances
-        slice_size = len(rec1) // self.C_repetition # calculate slice size
-        for i in range(self.C_repetition):
-            slice_x = rec1[i*slice_size: i*slice_size+slice_size] 
-            slice_y = rec2[i*slice_size: i*slice_size+slice_size]
-            x = self.ch2(self.refSignal, slice_x)
-            x = x / max(x)
-            y = self.ch2(self.refSignal, slice_y)
-            y = y / max(y)
-            x_index, y_index = self.tdoa(x, y)
-            dists[i] = (y_index - x_index) / self.Fs * 343
-
-            if i < 3 and self.debug:
-                plt.plot(range(len(x)), x, alpha=0.3)
-                plt.plot(range(len(y)), y, alpha=0.3)
-                plt.title(f"Channel estimate {(y_index - x_index) / self.Fs * 343}")
-                plt.scatter(x_index, x[x_index], c='blue', marker='o', alpha=0.5)
-                plt.scatter(y_index, y[y_index], c='red', marker='o', alpha=0.5)
-                plt.show()
-                print((y_index - x_index) / self.Fs * 343)
-
-        dists = self.average_of_3_median_values(dists)
-        return np.mean(dists)
-
-    def tdoa(self, x, y):
-
-        x_index = np.argmax(x)
-        y_index = np.argmax(y)
-
-        return x_index, y_index
-
-    @staticmethod
-    def ch2(x, y):
-        """
-        Channel estimation using matched filtering.
-        """
-        xr = x[::-1]
-        h = np.convolve(y, xr, mode='full')  # filter xr with y
-        alpha = np.dot(x.T, x)
-        hhat = h / alpha
-        return abs(hhat)
-
-    def average_of_3_median_values(self, arr):
-        sorted_arr = np.sort(arr)
-        n = len(sorted_arr)
-
-        if n % 2 == 0:
-            # Even number of elements
-            mid1 = n // 2 - 1
-            mid2 = n // 2
-            mid3 = n // 2 + 1
-            three_medians = [sorted_arr[mid1], sorted_arr[mid2], sorted_arr[mid3]]
+            logging.debug(f"Lag1: {lag1}, Lag2: {lag2}, TDOA: {TDOA}")
+        
+        return TDOA
+    
+    def ch3(self, x, y):
+        Nx = len(x) # Length of x
+        Ny = len(y) # Length of y
+        L = Ny + Nx - 1 # Length of h
+        self.epsi = 0.001
+        if (Nx > Ny):
+            y = np.concatenate((y, np.zeros(len(x) - len(y))))
         else:
-            # Odd number of elements
-            mid = n // 2
-            mid1 = mid - 1
-            mid2 = mid
-            mid3 = mid + 1
-            three_medians = [sorted_arr[mid1], sorted_arr[mid2], sorted_arr[mid3]]
+            x = np.concatenate((x, np.zeros(len(y) - len(x))))
 
-        average = np.mean(three_medians)
-        return average
+        # Deconvolution in frequency domain
+        Y = fft(y)
+        X = fft(x)
+        H = Y / X
+
+        # Threshold to avoid blow ups of noise during inversion
+        ii = np.absolute(X) < self.epsi * max(np.absolute(X))
+        for index, i in enumerate(ii):
+            if i:
+                H[index] = 0
+            else:
+                H[index] = H[index]
+
+        h = np.real(ifft(H)) 
+        # ensure the result is real-valued
+        h = h[0:L]
+        return h
 
     def coordinate_2d(self, D12, D13, D14):
         # Calculate other microphone differences
@@ -131,7 +153,7 @@ class Localization:
         D34 = (D14 - D13)
 
         # Microphone coordinates
-        xyMic = np.array([[0, 0], [4.80, 0], [0, 4.80], [4.80, 4.80]])
+        xyMic = np.array([[0, 0], [0, 460], [460, 460], [460, 0]])
 
         A = np.array([[2 * (xyMic[1, 0] - xyMic[0, 0]), 2 * (xyMic[1, 1] - xyMic[0, 1]), -2 * D12, 0, 0],
                       [2 * (xyMic[2, 0] - xyMic[0, 0]), 2 * (xyMic[2, 1] - xyMic[0, 1]), 0, -2 * D13, 0],
@@ -153,14 +175,12 @@ class Localization:
         return y[0:2]
 
 if __name__ == "__main__":
-    start_t = time.perf_counter()
-
-    # Read the .wav file
-    Fs, recording = wavfile.read("Recordings/recording349152.wav")
-
-    # Localize the sound source
-    loc = Localization(recording, True)
-
-    stop_t = time.perf_counter()
-    print(f"Total time: {stop_t - start_t:0.4f}")
-    print(f"Location of car: {loc.xyCar}")
+    # read wav file in folder files
+    Fs, recording = wavfile.read("files/student_recording/record_x178_y439.wav")
+    
+    # Initialize the Localization object
+    localization = Localization(recording, debug=True)
+    
+    # Get the localized position
+    x_car, y_car = localization.localizations
+    print(f"Estimated position: x={x_car}, y={y_car}")
