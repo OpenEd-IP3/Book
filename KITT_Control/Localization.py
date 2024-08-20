@@ -2,6 +2,8 @@ from scipy.io import wavfile
 import logging
 import scipy.signal as signal
 from scipy.fft import fft, ifft
+import numpy as np
+import matplotlib.pyplot as plt
 
 class Localization:
     def __init__(self, recording, debug=False):
