@@ -15,7 +15,7 @@ class Localization:
         - debug: Boolean to enable debug logging.
         """
         self.recording = recording
-        self.num_pulses = 40
+        self.num_pulses = 5
         self.debug = debug
         
         # Load the reference signal
@@ -43,7 +43,6 @@ class Localization:
         - y_car: Estimated y-coordinate of the sound source.
         """
         pulse_length = len(self.recording[:, 0]) // self.num_pulses  # Calculate the length of each pulse segment
-        print(f"--- Pulse Length: {pulse_length}, {len(self.recording[:, 0])} ---")
 
         tdoa_12 = []
         tdoa_13 = []
@@ -71,12 +70,13 @@ class Localization:
         sorted_tdoa_12 = np.sort(tdoa_12)
         sorted_tdoa_13 = np.sort(tdoa_13)
         sorted_tdoa_14 = np.sort(tdoa_14)
-        plt.plot(sorted_tdoa_12, label="TDOA12")
-        plt.show()
 
-        avg_D12 = np.mean(sorted_tdoa_12[10:-10]) * 34300
-        avg_D13 = np.mean(sorted_tdoa_13[10:-10]) * 34300
-        avg_D14 = np.mean(sorted_tdoa_14[10:-10]) * 34300
+        # plt.plot(sorted_tdoa_12, label="TDOA12")
+        # plt.show()
+
+        avg_D12 = np.mean(sorted_tdoa_12[1:-1]) * 34300
+        avg_D13 = np.mean(sorted_tdoa_13[1:-1]) * 34300
+        avg_D14 = np.mean(sorted_tdoa_14[1:-1]) * 34300
 
         if self.debug:
             logging.debug(f"Averaged TDOA12: {avg_D12}, TDOA13: {avg_D13}, TDOA14: {avg_D14}")
@@ -98,6 +98,10 @@ class Localization:
         Returns:
         - TDOA: The estimated time difference of arrival between the two recordings.
         """
+        # plt.plot(rec1, alpha=0.5)
+        # plt.plot(rec2, alpha=0.5)
+        # plt.show()
+
         # Cross-correlate the reference signal with each extracted pulse
         corr1 = self.ch3(rec1, self.refSignal)
         corr2 = self.ch3(rec2, self.refSignal)
@@ -179,6 +183,7 @@ class Localization:
 if __name__ == "__main__":
     # read wav file in folder files
     Fs, recording = wavfile.read("files/student_recording/record_x178_y439.wav")
+    print(f"Recording shape: {recording.shape}")
     
     # Initialize the Localization object
     localization = Localization(recording, debug=True)

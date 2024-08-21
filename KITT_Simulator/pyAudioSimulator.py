@@ -1,8 +1,12 @@
 import time as time
 import numpy as np
 import matplotlib.pyplot as plt
-from serialSimulator import SharedState
+from sharedState import SharedState
 import struct
+from KITT_Control.Localization import Localization
+import random
+from scipy.fft import fft, ifft
+from scipy.io import wavfile
 
 class PyAudio:
 
@@ -51,6 +55,8 @@ class Stream:
         """
         Returns an interleaved, encoded recording from the microphones
         """
+        self.random_offset = random.randint(1000, 10000)
+
         if not self.state.beacon: # If the beacon is off, return silence
             return self.__interleave_and_prepare_buffer(self.silence, self.silence, self.silence, self.silence, self.silence)
         
@@ -82,11 +88,6 @@ class Stream:
         D4 = np.linalg.norm(mic_coor[3]-car_coor)
         D5 = np.linalg.norm(mic_coor[4]-car_coor)
 
-        print("Distances: ")
-        print(D1, D2, D3, D4, D5)
-        print("Difference: ")
-        print(D2-D1, D3-D1, D4-D1, D5-D1)
-
         return D1, D2, D3, D4, D5
     
     def __dist_to_audio(self, distance):
@@ -100,6 +101,34 @@ class Stream:
         except:
             print("ERROR: No recording available for this distance")
             return self.silence
+        
+    def ch3(self, x, y):
+        Nx = len(x) # Length of x
+        Ny = len(y) # Length of y
+        L = Ny + Nx - 1 # Length of h
+        self.epsi = 0.001
+        if (Nx > Ny):
+            y = np.concatenate((y, np.zeros(len(x) - len(y))))
+        else:
+            x = np.concatenate((x, np.zeros(len(y) - len(x))))
+
+        # Deconvolution in frequency domain
+        Y = fft(y)
+        X = fft(x)
+        H = Y / X
+
+        # Threshold to avoid blow ups of noise during inversion
+        ii = np.absolute(X) < self.epsi * max(np.absolute(X))
+        for index, i in enumerate(ii):
+            if i:
+                H[index] = 0
+            else:
+                H[index] = H[index]
+
+        h = np.real(ifft(H)) 
+        # ensure the result is real-valued
+        h = h[0:L]
+        return h
 
     @staticmethod
     def __interleave_and_prepare_buffer(*arrays):
@@ -156,131 +185,8 @@ class Stream:
 class paInt16:
     pass
 
-class Localization:
-
-    def __init__(self, recording):
-
-        self.recording = np.array(recording)
-
-        self.Fs = 44100
-
-        self.refSignal = self.load_reference()
-
-        self.xyCar = [481, 481] # car location [cm]
-
-        self.localize(self.recording)
-
-    def load_reference(self):
-        refSignal =  [] # reference signal
-        with open("KITT_Simulator/pulses_recording.txt", "r") as f: # Recording at 44100Khz
-            line = f.readline()
-            line = line.split(sep=" ")
-            refSignal = [int(i) for i in line[1:-1]]
-            refSignal = np.array(refSignal[16000:21000])
-
-        refSignal = refSignal / max(refSignal) # normalize
-
-        # print(f"Refsignal shape: {refSignal.shape}")
-        # plt.plot(refSignal)
-        # plt.title("Reference recording")
-        # plt.show()
-
-        return refSignal
-
-    def localize(self, recording):
-        D12 = self.calculate_distance(recording[0], recording[1])
-        D13 = self.calculate_distance(recording[0], recording[2])
-        D14 = self.calculate_distance(recording[0], recording[3])
-
-        print(f"Distances: {D12}, {D13}, {D14}")
-
-        D12 = 73.71457719639113
-        D13 = 248.4101510982589
-        D14 = 205.8114133216988
-
-        xyCar = self.coordinate_2d(D12, D13, D14)
-
-        print(f"Car location: {xyCar}")
-
-    def calculate_distance(self, recording0, recording1):
-        plt.plot(recording0)
-        plt.plot(recording1)
-        plt.title("Recordings")
-        plt.show()
-
-        # Cross-correlation
-        xcorr1 = np.abs(np.correlate(recording0, self.refSignal, mode='full'))
-        xcorr1 = xcorr1 / max(xcorr1)
-
-        xcorr2 = np.abs(np.correlate(recording1, self.refSignal, mode='full'))
-        xcorr2 = xcorr2 / max(xcorr2)
-
-        peaks1 = self.find_peaks(xcorr1)
-        peaks2 = self.find_peaks(xcorr2)
-
-        # Calculate distance
-        print(f"Peaks: {peaks1}, {peaks2}")
-        print(f"Peaks diff: {peaks2 - peaks1}")
-        D = (np.mean(peaks2 - peaks1)) / self.Fs * 34300
-        # D = 0
-
-        plt.plot(xcorr1)
-        plt.plot(xcorr2)
-        plt.plot(peaks1, xcorr1[peaks1], 'ro')
-        plt.plot(peaks2, xcorr2[peaks2], 'ro')
-        plt.title(f"Cross-correlation: {D}")
-        plt.show()
-
-        return D
-    
-    def find_peaks(self, xcorr):
-        results = []
-        counter = 0
-        for index, item in enumerate(xcorr):
-            if counter > 0:
-                counter -= 1
-                continue
-            if item > 0.8:
-                results.append(index)
-                counter = 300
-
-        return np.array(results)
-                
-
-    def coordinate_2d(self, D12, D13, D14):
-        # Calculate other microphone differences
-        D23 = (D13 - D12)
-        D24 = (D14 - D12)
-        D34 = (D14 - D13)
-
-        # Microphone coordinates
-        xyMic = np.array([[0, 0], [0, 480], [480, 480], [480, 0]])
-
-        A = np.array([[2 * (xyMic[1, 0] - xyMic[0, 0]), 2 * (xyMic[1, 1] - xyMic[0, 1]), -2 * D12, 0, 0],
-                      [2 * (xyMic[2, 0] - xyMic[0, 0]), 2 * (xyMic[2, 1] - xyMic[0, 1]), 0, -2 * D13, 0],
-                      [2 * (xyMic[3, 0] - xyMic[0, 0]), 2 * (xyMic[3, 1] - xyMic[0, 1]), 0, 0, -2 * D14],
-                      [2 * (xyMic[2, 0] - xyMic[1, 0]), 2 * (xyMic[2, 1] - xyMic[1, 1]), 0, -2 * D23, 0],
-                      [2 * (xyMic[3, 0] - xyMic[1, 0]), 2 * (xyMic[3, 1] - xyMic[1, 1]), 0, 0, -2 * D24],
-                      [2 * (xyMic[3, 0] - xyMic[2, 0]), 2 * (xyMic[3, 1] - xyMic[2, 1]), 0, 0, -2 * D34]
-                      ])
-
-        b = np.array([(pow(D12, 2) - pow(np.linalg.norm(xyMic[0, :]), 2) + pow(np.linalg.norm(xyMic[1, :]), 2)),
-                      (pow(D13, 2) - pow(np.linalg.norm(xyMic[0, :]), 2) + pow(np.linalg.norm(xyMic[2, :]), 2)),
-                      (pow(D14, 2) - pow(np.linalg.norm(xyMic[0, :]), 2) + pow(np.linalg.norm(xyMic[3, :]), 2)),
-                      (pow(D23, 2) - pow(np.linalg.norm(xyMic[1, :]), 2) + pow(np.linalg.norm(xyMic[2, :]), 2)),
-                      (pow(D24, 2) - pow(np.linalg.norm(xyMic[1, :]), 2) + pow(np.linalg.norm(xyMic[3, :]), 2)),
-                      (pow(D34, 2) - pow(np.linalg.norm(xyMic[2, :]), 2) + pow(np.linalg.norm(xyMic[3, :]), 2))
-                      ])
-
-        y = np.linalg.inv(A.T @ A) @ A.T @ b
-        return y[0:2]
-
 if __name__ == "__main__":
-
-    ### PyAudio Test ###
-
-    # Make a recording according to manual
-    pyaudio_handle = PyAudio(100, 200)
+    pyaudio_handle = PyAudio()
 
     for i in range(pyaudio_handle.get_device_count()):
         device_info = pyaudio_handle.get_device_info_by_index(i)
@@ -295,41 +201,17 @@ if __name__ == "__main__":
                                 rate=Fs,
                                 input=True)
 
-    samples = stream.read(Fs*1)
+    samples = stream.read(Fs*6)
     data = np.frombuffer(samples, dtype='int16')
 
-    ### Localize recording as verification ###
-    # Display received data
-    print(data.shape)
     plt.plot(data[0::5])
     plt.plot(data[1::5])
     plt.plot(data[2::5])
     plt.plot(data[3::5])
     plt.plot(data[4::5])
-    plt.title("Received Audio data")
     plt.show()
 
-    loc = Localization([data[3000::5], data[3001::5], data[3002::5], data[3003::5], data[3004::5]])
+    recording = np.array([data[0::5], data[1::5], data[2::5], data[3::5], data[4::5]]).T
 
-    # # Test Localization Using Premade Recording
-    # refRecording =  [] # reference signal
-    # with open("field_recording_200_200.txt", "r") as f: # Recording at 44100Khz
-    #     line = f.readline()
-    #     line = line.split(sep=" ")
-    #     refRecording = np.array([int(i) for i in line[0:-1]])
-
-    # data = refRecording
-
-    # # Display received data
-    # print(data.shape)
-    # plt.plot(data[0::5])
-    # plt.plot(data[1::5])
-    # plt.plot(data[2::5])
-    # plt.plot(data[3::5])
-    # plt.plot(data[4::5])
-    # plt.title("Received Audio data")
-    # plt.legend(["Mic 1", "Mic 2", "Mic 3", "Mic 4", "Mic 5"])
-    # plt.show()
-
-    # loc = Localization([data[0::5], data[1::5], data[2::5], data[3::5], data[4::5]])
+    localization = Localization(recording)
 
