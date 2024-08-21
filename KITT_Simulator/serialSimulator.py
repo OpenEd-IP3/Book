@@ -11,7 +11,8 @@ class Serial:
     """Class to simulate serial communication with the car."""
     def __init__(self, port, baudrate, rtscts=True, x=240, y=30, theta=np.pi/2):
         """Initializes the Serial class with port, baudrate, and initial state, and starts the dynamics thread."""
-        logging.basicConfig(filename='KITT_Simulator/logs/serialSimulator.log', level=logging.DEBUG)
+        # logging.basicConfig(level=logging.WARNING)
+        #logging.basicConfig(filename='KITT_Simulator/logs/serialSimulator.log', level=logging.DEBUG)
         logging.info("Starting Serial Communication")
 
         self.port = port
@@ -28,7 +29,9 @@ class Serial:
         logging.info("Serial: Starting GUI")
         self.gui = GUI(self.state, self.state.motor_command, self.state.servo_command)
         self.gui.display()
-
+        
+       # self.update_queue = queue.Queue()
+        
         logging.info("Serial: Starting Dynamics Thread")
         self.update_thread = threading.Thread(target=self.run_dynamics)
         self.update_thread.daemon = True
@@ -54,20 +57,28 @@ class Serial:
 
     def run_dynamics(self):
         """Continuously updates the state using dynamics every 50ms."""
-        update_freq = 30
+        update_freq = 2  # Desired updates per second
+        update_interval = 1 / update_freq  # Time per update in seconds
+
         while not self.stop_thread.is_set():
-            start_time = time.time()
+            start_time = time.time()  # Start time of this loop
+
             logging.debug("Running dynamics update")
             self.dynamics.update_state()
-            logging.debug("Updating GUI")
+
+            # Enqueue the updated state for processing in the main thread
+            self.gui.update()
+            
             logging.debug(f"X: {self.state.x}, Y: {self.state.y}, Theta: {self.state.theta}")
-            self.gui.update()  # Update the GUI with the new state
-            delta_time = (time.time() - start_time) / 1000 - 1 / update_freq
-            if delta_time > 0:
-                time.sleep(delta_time)
+
+            elapsed_time = time.time() - start_time  # Time taken for this update loop
+            sleep_time = update_interval - elapsed_time
+
+            if sleep_time > 0:
+                time.sleep(sleep_time)  # Sleep only if we have time remaining in the frame
             else:
                 logging.warning("Dynamics thread running too slow.")
-
+    
     def close(self):
         """Closes the serial connection."""
         logging.info("Closing Serial Communication")
