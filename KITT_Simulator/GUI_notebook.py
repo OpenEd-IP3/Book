@@ -235,3 +235,40 @@ class Car:
                 if self.arena.point_in_polygon(x, y, obstacle):
                     return True
         return False
+    
+class GUI:
+    def __init__(self, state, motor_command, servo_command):
+        self.canvas_width = 525
+        self.canvas_height = 525
+        self.arena_width = 480
+        self.arena_height = 480
+        self.offset_x = (self.canvas_width - self.arena_width) // 2
+        self.offset_y = (self.canvas_height - self.arena_height) // 2
+        
+        self.canvas = Canvas(width=self.canvas_width, height=self.canvas_height, layout=widgets.Layout(width=f'{self.canvas_width}px', height=f'{self.canvas_height}px'))
+        self.info_labels = list(range(7))
+
+        self.state = state
+        self.motor_command = motor_command
+        self.servo_command = servo_command
+        self.arena = Arena(self.canvas)
+        self.arena.draw()
+        self.car = Car(self.canvas, self.state, self.arena)
+        self.prev_theta = self.state.theta
+        self.simulation_running = True
+
+    def update(self):
+        if not self.simulation_running:
+            return
+
+        self.car.position = np.array([self.state.x, 480 - self.state.y], dtype=float)
+        self.car.update_orientation(self.state.theta)
+
+        self.car.draw_car()
+
+        if self.car.check_collision():
+            self.simulation_running = False
+            self.canvas.fill_style = "red"
+            self.canvas.fill_text("Collision Detected!", self.canvas.width / 2, self.canvas.height / 2)
+
+        self.prev_theta = self.state.theta
