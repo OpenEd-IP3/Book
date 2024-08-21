@@ -6,7 +6,7 @@ from shapely.geometry import Point, Polygon  # For geometric calculations
 import ipywidgets as widgets  # For creating interactive widgets
 from IPython.display import display  # For displaying widgets in a Jupyter notebook
 
-# This class represents a microphone in the arena with its ID and position.
+
 class Mic:
     def __init__(self, id, position):
         self.id = id
