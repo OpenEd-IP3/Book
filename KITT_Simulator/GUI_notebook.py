@@ -272,3 +272,19 @@ class GUI:
             self.canvas.fill_text("Collision Detected!", self.canvas.width / 2, self.canvas.height / 2)
 
         self.prev_theta = self.state.theta
+
+    def display(self):
+        # Ensure the canvas is displayed in the notebook
+        display(self.canvas)
+
+    def run(self):
+        self.simulation_running = True
+        while self.simulation_running:
+            self.update()
+            time.sleep(0.033)  # 30 FPS
+
+    def stop(self):
+        self.simulation_running = False
+
+    def __del__(self):
+        self.simulation_running = False
