@@ -6,7 +6,7 @@ keyboard
 scipy
 statsmodels
 ipywidgets
-pyaudio==0.2.11
-tk==0.1.0
-
-
+pyaudio
+tk
+time
+pynput
