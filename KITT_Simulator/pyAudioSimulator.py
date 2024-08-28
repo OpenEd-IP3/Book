@@ -215,3 +215,7 @@ if __name__ == "__main__":
 
     localization = Localization(recording)
 
+    # Get the localized position
+    x_car, y_car = localization.localizations
+    print(f"Estimated position: x={x_car}, y={y_car}")
+

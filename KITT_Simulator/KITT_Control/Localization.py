@@ -15,7 +15,7 @@ class Localization:
         - debug: Boolean to enable debug logging.
         """
         self.recording = recording
-        self.num_pulses = 5
+        self.num_pulses = 40
         self.debug = debug
         
         # Load the reference signal
@@ -24,7 +24,7 @@ class Localization:
         self.refSignal = self.refSignal / np.max(np.abs(self.refSignal))  # Normalize the reference signal
         
         # Define the microphone positions in cm
-        self.mic_positions = np.array([[0, 0], [460, 0], [460, 460], [0, 460], [230, 0]])
+        self.mic_positions = np.array([[0, 0], [480, 0], [480, 480], [0, 480], [240, 0]])
         
         if debug:
             logging.basicConfig(level=logging.DEBUG)
@@ -182,7 +182,7 @@ class Localization:
 
 if __name__ == "__main__":
     # read wav file in folder files
-    Fs, recording = wavfile.read("files/student_recording/record_x178_y439.wav")
+    Fs, recording = wavfile.read("files/student_recording/record_x64_y40.wav")
     print(f"Recording shape: {recording.shape}")
     
     # Initialize the Localization object
