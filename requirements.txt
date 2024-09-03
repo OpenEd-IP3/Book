@@ -8,5 +8,4 @@ statsmodels
 ipywidgets
 pyaudio
 tk
-time
 pynput
