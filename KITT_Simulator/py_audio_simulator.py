@@ -1,7 +1,7 @@
 import time as time
 import numpy as np
 import matplotlib.pyplot as plt
-from sharedState import SharedState
+from KITT_Simulator.shared_state import SharedState
 import struct
 from KITT_Control.Localization import Localization
 import random

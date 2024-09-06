@@ -1,9 +1,9 @@
 import time
 import threading
-from KITT_Simulator.dynamicsSimulator import Dynamics
+from KITT_Simulator.dynamics_simulator import Dynamics
 import numpy as np
 import matplotlib.pyplot as plt
-from KITT_Simulator.sharedState import SharedState
+from KITT_Simulator.shared_state import SharedState
 from KITT_Simulator.GUI_notebook import GUI
 import logging
 

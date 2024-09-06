@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from KITT_Simulator.sharedState import SharedState
+from KITT_Simulator.shared_state import SharedState
 import logging
 
 class Dynamics:

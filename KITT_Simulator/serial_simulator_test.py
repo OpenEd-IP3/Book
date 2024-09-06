@@ -1,5 +1,5 @@
 # Comment / Uncoment for simulator
-from KITT_Simulator.serialSimulator import Serial # Simulator
+from KITT_Simulator.serial_simulator import Serial # Simulator
 # from serial import Serial # Real Car
 import time
 import logging
