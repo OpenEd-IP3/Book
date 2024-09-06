@@ -42,12 +42,11 @@ class Serial:
         """Writes a command to the serial port and updates the shared state accordingly."""
         with self.state._lock:
             logging.debug(f"Received command: {command}")
-            command = command.decode()
 
-            if command[0] == 'M':
+            if command[0] == ord('M'):
                 motor_command = int(command[1:-1])
                 self.state.motor_command = motor_command
-            elif command[0] == 'D':
+            elif command[0] == ord('D'):
                 servo_command = int(command[1:-1])
                 self.state.servo_command = servo_command
 

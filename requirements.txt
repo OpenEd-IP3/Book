@@ -6,7 +6,8 @@ keyboard
 scipy
 statsmodels
 ipywidgets
+ipycanvas
+shapely
 pyaudio
 tk
-time
 pynput
