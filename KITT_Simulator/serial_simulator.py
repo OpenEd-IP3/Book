@@ -81,7 +81,17 @@ class Serial:
                             status += '* V_batt {} V\n'.format(voltage)
                             status += '**************************\n\x04'
                     self.send_buffer.append(status)
-
+                case b'V':
+                    version = '*******************************\n' \
+                                '*            EPO-4            *\n' \
+                                '*******************************\n' \
+                                '* KITT Simulator Rev.  0.1    *\n' \
+                                '* Audio Firmware Rev.  0.0    *\n' \
+                                '*******************************\n' \
+                                '*   Author:  M. Rom B.Sc.     *\n' \
+                                '*   Date:    Sep 10, 2024     *\n' \
+                                '*******************************\n\x04'
+                    self.send_buffer.append(version)
 
     def read_until(self, end):
         """Reads from the send buffer until a specified end character is found."""
