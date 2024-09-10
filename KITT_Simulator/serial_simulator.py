@@ -43,12 +43,45 @@ class Serial:
         with self.state._lock:
             logging.debug(f"Received command: {command}")
 
-            if command[0] == ord('M'):
-                motor_command = int(command[1:-1])
-                self.state.motor_command = motor_command
-            elif command[0] == ord('D'):
-                servo_command = int(command[1:-1])
-                self.state.servo_command = servo_command
+            match command[0:1]:
+                case b'M':
+                    motor_command = int(command[1:-1])
+                    self.state.motor_command = motor_command
+                case b'D':
+                    servo_command = int(command[1:-1])
+                    self.state.servo_command = servo_command
+                case b'S':
+                    left_distance = 999
+                    right_distance = 999
+                    voltage = 11.5
+                    audio_enable = True
+                    audio_code = 0xABCDEF00
+                    carrier_frequency = 5678
+                    bit_frequency = 1234
+                    repetition_count = 1337
+                    match command[1:2]:
+                        case b'd':
+                            status = "USL{}\nUSR{}\n\x04".format(left_distance, right_distance)
+                        case b'v':
+                            status = """VBATT{:.2f}V\n\x04""".format(voltage)
+                        case _:
+                            status = '**************************\n'
+                            status += '* Audio Beacon: {}\n'.format('on' if audio_enable else 'off')
+                            status += '* c: {:#x}\n'.format(audio_code)
+                            status += '* f_c: {}\n'.format(carrier_frequency)
+                            status += '* f_b: {}\n'.format(bit_frequency)
+                            status += '* c_r: {}\n'.format(repetition_count)
+                            status += '**************************\n'
+                            status += '* PWM:\n'
+                            status += '* Dir. {}\n'.format(self.state.servo_command)
+                            status += '* Mot. {}\n'.format(self.state.motor_command)
+                            status += '**************************\n'
+                            status += '* Sensors:\n'
+                            status += '* Dist. L {} R {}\n'.format(left_distance, right_distance)
+                            status += '* V_batt {} V\n'.format(voltage)
+                            status += '**************************\n\x04'
+                    self.send_buffer.append(status)
+
 
     def read_until(self, end):
         """Reads from the send buffer until a specified end character is found."""
