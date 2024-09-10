@@ -20,11 +20,11 @@ class Dynamics:
         self.b = 5
         self.R = {}
         logging.debug("Reading Motor and Servo Parameters")
-        with open("KITT_Simulator/motor_parameters.txt", "r") as f:
+        with open("KITT_Simulator/simulator_data/motor_parameters.txt", "r") as f:
             for line in f:
                 line = line.split(sep=",")
                 self.F[int(line[0])] = float(line[1])
-        with open("KITT_Simulator/servo_parameters.txt", "r") as f:
+        with open("KITT_Simulator/simulator_data/servo_parameters.txt", "r") as f:
             for line in f:
                 line = line.split(sep=",")
                 self.R[int(line[0])] = float(line[1])
