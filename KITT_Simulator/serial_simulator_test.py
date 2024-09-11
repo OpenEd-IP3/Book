@@ -1,5 +1,4 @@
 import time
-import logging
 
 try:
     from KITT_Simulator.serial_simulator import Serial # Simulator

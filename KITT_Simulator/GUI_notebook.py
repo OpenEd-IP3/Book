@@ -64,17 +64,17 @@ class Arena:
                                     self.boundaries[3] - self.boundaries[1])
             self.canvas.set_line_dash([])  # reset line dash
             
-            self.canvas.fill_style = 'salmon'
-            self.canvas.stroke_style = 'black'
-            for obstacle in self.obstacles:
-                self.canvas.fill_polygon(obstacle)
-                self.canvas.stroke_polygon(obstacle)
+            # self.canvas.fill_style = 'salmon'
+            # self.canvas.stroke_style = 'black'
+            # for obstacle in self.obstacles:
+            #     self.canvas.fill_polygon(obstacle)
+            #     self.canvas.stroke_polygon(obstacle)
             
-            self.canvas.fill_style = 'red'
-            for waypoint in self.waypoints:
-                x, y, radius = waypoint
-                self.canvas.fill_circle(x, y, radius)
-                self.canvas.stroke_circle(x, y, radius)
+            # self.canvas.fill_style = 'red'
+            # for waypoint in self.waypoints:
+            #     x, y, radius = waypoint
+            #     self.canvas.fill_circle(x, y, radius)
+            #     self.canvas.stroke_circle(x, y, radius)
             
             for mic in self.mics:
                 mic.plot(self.canvas)
@@ -124,7 +124,7 @@ class Car:
 
             self.canvas.clear_rect(min_x, min_y, max_x - min_x, max_y - min_y)
 
-            self.redraw_affected_areas(min_x, min_y, max_x, max_y)
+            # self.redraw_affected_areas(min_x, min_y, max_x, max_y)
 
     def redraw_affected_areas(self, min_x, min_y, max_x, max_y):
         """redraws obstacles and boundaries that might have been cleared. this is made due to the car bounding box size"""
@@ -162,7 +162,7 @@ class Car:
         """update the car's orientation based on the new angle theta."""
         self.orientation = np.array([math.cos(theta), -math.sin(theta)], dtype=float)
 
-    def draw_car(self):
+    def draw_car(self, beacon):
         
         self.clear_behind() # Clear only the previous car position
 
@@ -212,6 +212,14 @@ class Car:
             self.canvas.stroke_style = colors[i]
             self.canvas.line_width = 2
             self.canvas.stroke_line(start_corner[0], start_corner[1], end_corner[0], end_corner[1])
+
+        # Draw a dot in the middle if the beacon is on, else draw an empty circle
+        if beacon:
+            self.canvas.fill_style = 'red'
+            self.canvas.fill_circle(center_x, center_y, 3)
+        else:
+            self.canvas.stroke_style = 'black'
+            self.canvas.stroke_circle(center_x, center_y, 3)
 
         # Draw the wheels
         self.canvas.stroke_style = 'blue'
@@ -264,12 +272,12 @@ class GUI:
         self.car.position = np.array([self.state.x, 480 - self.state.y], dtype=float)
         self.car.update_orientation(self.state.theta)
 
-        self.car.draw_car()
+        self.car.draw_car(self.state.beacon)
 
-        if self.car.check_collision():
-            self.simulation_running = False
-            self.canvas.fill_style = "red"
-            self.canvas.fill_text("Collision Detected!", self.canvas.width / 2, self.canvas.height / 2)
+        # if self.car.check_collision():
+        #     self.simulation_running = False
+        #     self.canvas.fill_style = "red"
+        #     self.canvas.fill_text("Collision Detected!", self.canvas.width / 2, self.canvas.height / 2)
 
         self.prev_theta = self.state.theta
 

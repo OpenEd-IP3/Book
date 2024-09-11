@@ -1,12 +1,12 @@
 import time
 import numpy as np
 
-try:
-    from KITT_Simulator.shared_state import SharedState
-except ImportError:
-    from shared_state import SharedState
-else:
-    raise ImportError("Could not import the required modules.")
+# try:
+#     from KITT_Simulator.shared_state import SharedState
+# except ImportError:
+#     from shared_state import SharedState
+# else:
+#     raise ImportError("Could not import the required modules.")
 
 class Dynamics:
     def __init__(self, start_state):
@@ -22,14 +22,27 @@ class Dynamics:
         self.b = 5
         self.R = {}
 
-        with open("KITT_Simulator/motor_parameters.txt", "r") as f:
-            for line in f:
-                line = line.split(sep=",")
-                self.F[int(line[0])] = float(line[1])
-        with open("KITT_Simulator/servo_parameters.txt", "r") as f:
-            for line in f:
-                line = line.split(sep=",")
-                self.R[int(line[0])] = float(line[1])
+        try: 
+            with open("simulator_data/motor_parameters.txt", "r") as f:
+                for line in f:
+                    line = line.split(sep=",")
+                    self.F[int(line[0])] = float(line[1])
+            with open("simulator_data/servo_parameters.txt", "r") as f:
+                for line in f:
+                    line = line.split(sep=",")
+                    self.R[int(line[0])] = float(line[1])
+        except(FileNotFoundError):
+            with open("KITT_Simulator/simulator_data/motor_parameters.txt", "r") as f:
+                for line in f:
+                    line = line.split(sep=",")
+                    self.F[int(line[0])] = float(line[1])
+            with open("KITT_Simulator/simulator_data/servo_parameters.txt", "r") as f:
+                for line in f:
+                    line = line.split(sep=",")
+                    self.R[int(line[0])] = float(line[1])
+        else:
+            raise FileNotFoundError("Could not find the motor and servo parameters.")
+        
         self.motor_command = 150
         self.servo_command = 150
 
