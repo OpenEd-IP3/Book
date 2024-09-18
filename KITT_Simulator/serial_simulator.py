@@ -7,7 +7,7 @@ import queue  # Import queue to handle inter-thread communication
 
 
 from KITT_Simulator.shared_state import SharedState
-from KITT_Simulator.GUI_notebook import GUI
+from KITT_Simulator.gui import GUI
 from KITT_Simulator.dynamics_simulator import Dynamics
 
 # try:
@@ -35,7 +35,7 @@ class Serial:
         self.state = SharedState(x, y, theta)
         self.dynamics = Dynamics(self.state)
 
-        self.gui = GUI(self.state, self.state.motor_command, self.state.servo_command)  # Initialize the GUI
+        self.gui = GUI(self.state)  # Initialize the GUI
         self.gui.display()
 
         self.update_thread = threading.Thread(target=self.run_dynamics)
@@ -65,7 +65,7 @@ class Serial:
 
     def run_dynamics(self):
         """Continuously updates the state using dynamics every 50ms."""
-        update_freq = 2  # Desired updates per second
+        update_freq = 30  # Desired updates per second
         update_interval = 1 / update_freq  # Time per update in seconds
 
         while not self.stop_thread.is_set():
