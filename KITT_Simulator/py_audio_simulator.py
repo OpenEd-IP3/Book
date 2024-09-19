@@ -63,7 +63,7 @@ class Stream:
                     line = line.strip().split()
                     key = int(line[0][:-1])
                     values = np.array([int(i) for i in line[1:]], dtype=np.int16)
-                    self.pulse_dict[key] = values
+                    self.pulse_dict[key] = values[3000:35000]
             with open("KITT_Simulator/simulator_data/silence.txt", "r") as f:
                 self.silence = np.array([int(i) for i in f.readline().strip().split()[1:]], dtype=np.int16)
         except:
@@ -72,26 +72,45 @@ class Stream:
                     line = line.strip().split()
                     key = int(line[0][:-1])
                     values = np.array([int(i) for i in line[1:]], dtype=np.int16)
-                    self.pulse_dict[key] = values
+                    self.pulse_dict[key] = values[3000:35000]
             with open("simulator_data/silence.txt", "r") as f:
                 self.silence = np.array([int(i) for i in f.readline().strip().split()[1:]], dtype=np.int16)
 
     def align_recordings(self):
-        # Align the pulses in each recording
+        # Use cross-correlation to align the pulses
         self.aligned_pulse_dict = {}
+        # Choose the reference recording at the closest distance (e.g., 30 cm)
+        reference_distance = min(self.pulse_dict.keys())
+        ref_recording = self.pulse_dict[reference_distance]
+        # Extract the reference pulse
+        ref_pulse = self.extract_pulse(ref_recording)
         for distance, recording in self.pulse_dict.items():
-            pulse_index = self.find_first_pulse(recording)
-            aligned_recording = recording[pulse_index:]
+            # Find lag using cross-correlation
+            lag = self.find_lag_using_cross_correlation(recording[:len(recording)//3], ref_pulse)
+            # Shift the recording to align the pulses
+            if lag >= 0:
+                aligned_recording = recording[lag:]
+            else:
+                padding = np.zeros(-lag, dtype=recording.dtype)
+                aligned_recording = np.concatenate((padding, recording))
             self.aligned_pulse_dict[distance] = aligned_recording
 
-    def find_first_pulse(self, recording):
-        # Find the index of the first pulse using a threshold
-        threshold = np.max(recording) * 0.5
-        indices = np.where(recording > threshold)[0]
-        if len(indices) == 0:
-            return 0
-        else:
-            return indices[0]
+    def extract_pulse(self, recording):
+        # Extract a pulse from the recording
+        # Adjust indices based on where the pulse is expected
+        # Here, we assume the pulse is between indices 16000 and 19500
+        pulse_start = 1000
+        pulse_end = 10000
+        plt.plot(recording)
+        plt.vlines([pulse_start, pulse_end], min(recording), max(recording), colors='r', linestyles='dashed')
+        plt.show()
+        return recording[pulse_start:pulse_end]
+
+    def find_lag_using_cross_correlation(self, recording, ref_pulse):
+        # Compute cross-correlation
+        corr = np.correlate(recording, ref_pulse, mode='full')
+        lag = np.argmax(corr) - len(ref_pulse) + 1
+        return lag
 
     def read(self, length):
         if not self.state.beacon:
@@ -124,9 +143,7 @@ class Stream:
         R5_shifted = self.shift_recording(R5, N5)
 
         # Ensure all recordings have the same length
-        min_length = min(
-            len(R1_shifted), len(R2_shifted), len(R3_shifted), len(R4_shifted), len(R5_shifted)
-        )
+        min_length = min(len(R1_shifted), len(R2_shifted), len(R3_shifted), len(R4_shifted), len(R5_shifted))
         R1_shifted = R1_shifted[:min_length]
         R2_shifted = R2_shifted[:min_length]
         R3_shifted = R3_shifted[:min_length]
