@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Localization:
-    def __init__(self, recording, debug=False):
+    def __init__(self, recording, refSignal, num_pulses, Fs):
         """
         Initializes the Localization class with the given recordings.
         
@@ -15,21 +15,12 @@ class Localization:
         - debug: Boolean to enable debug logging.
         """
         self.recording = recording
-        self.num_pulses = 40
-        self.debug = debug
-        
-        # Load the reference signal
-        self.Fs, self.refSignal = wavfile.read("files/student_recording/reference.wav")  # Reference signal
-        self.refSignal = self.refSignal[200000:230000, 0]  # Use only one channel
-        self.refSignal = self.refSignal / np.max(np.abs(self.refSignal))  # Normalize the reference signal
+        self.num_pulses = num_pulses
+        self.refSignal = refSignal
+        self.Fs = Fs
         
         # Define the microphone positions in cm
-        self.mic_positions = np.array([[0, 0], [480, 0], [480, 480], [0, 480], [240, 0]])
-        
-        if debug:
-            logging.basicConfig(level=logging.DEBUG)
-        else:
-            logging.basicConfig(level=logging.INFO)
+        self.mic_positions = np.array([[0, 0], [0, 460], [460, 460], [460, 0], [0, 230]])
         
         # Localize the sound source for each pulse
         self.localizations = self.localization()
@@ -64,9 +55,6 @@ class Localization:
             tdoa_13.append(D13)
             tdoa_14.append(D14)
 
-            if self.debug:
-                logging.debug(f"Pulse {i + 1}: TDOA12={D12}, TDOA13={D13}, TDOA14={D14}")
-
         sorted_tdoa_12 = np.sort(tdoa_12)
         sorted_tdoa_13 = np.sort(tdoa_13)
         sorted_tdoa_14 = np.sort(tdoa_14)
@@ -74,17 +62,13 @@ class Localization:
         # plt.plot(sorted_tdoa_12, label="TDOA12")
         # plt.show()
 
-        avg_D12 = np.mean(sorted_tdoa_12[1:-1]) * 34300
-        avg_D13 = np.mean(sorted_tdoa_13[1:-1]) * 34300
-        avg_D14 = np.mean(sorted_tdoa_14[1:-1]) * 34300
-
-        if self.debug:
-            logging.debug(f"Averaged TDOA12: {avg_D12}, TDOA13: {avg_D13}, TDOA14: {avg_D14}")
+        avg_D12 = np.mean(sorted_tdoa_12) * 34300
+        avg_D13 = np.mean(sorted_tdoa_13) * 34300
+        avg_D14 = np.mean(sorted_tdoa_14) * 34300
 
         # Calculate the 2D coordinates based on the averaged TDOA measurements
         x_car, y_car = self.coordinate_2d(avg_D12, avg_D13, avg_D14)
         
-        logging.info(f"Final localized position: x={x_car}, y={y_car}")
         return x_car, y_car
 
     def TDOA(self, rec1, rec2):
@@ -109,7 +93,7 @@ class Localization:
         # Find the lag with the maximum correlation value (which corresponds to the arrival time)
         lag1 = np.argmax(corr1) - (len(self.refSignal) - 1)
         lag2 = np.argmax(corr2) - (len(self.refSignal) - 1)
-        
+
         # Calculate TDOA
         TDOA = (lag2 - lag1) / self.Fs  # Convert lag difference to time difference in seconds
 
@@ -119,16 +103,13 @@ class Localization:
         # plt.scatter(lag2 + len(self.refSignal) - 1, corr2[np.argmax(corr2)], color='red')
         # plt.show()
         
-        if self.debug:
-            logging.debug(f"Lag1: {lag1}, Lag2: {lag2}, TDOA: {TDOA}")
-        
         return TDOA
     
     def ch3(self, x, y):
         Nx = len(x) # Length of x
         Ny = len(y) # Length of y
         L = Ny + Nx - 1 # Length of h
-        self.epsi = 0.001
+        self.epsi = 0.01
         if (Nx > Ny):
             y = np.concatenate((y, np.zeros(len(x) - len(y))))
         else:
@@ -158,6 +139,8 @@ class Localization:
         D24 = (D14 - D12)
         D34 = (D14 - D13)
 
+        print(f"D12: {D12}, D13: {D13}, D14: {D14}, D23: {D23}, D24: {D24}, D34: {D34}")
+
         # Microphone coordinates
         xyMic = np.array([[0, 0], [0, 460], [460, 460], [460, 0]])
 
@@ -182,11 +165,18 @@ class Localization:
 
 if __name__ == "__main__":
     # read wav file in folder files
-    Fs, recording = wavfile.read("files/student_recording/record_x64_y40.wav")
+    Fs, recording = wavfile.read("files/student_recording/record_x143_y296.wav")
+    num_pulses = 40  # Number of pulses in the recording
     print(f"Recording shape: {recording.shape}")
-    
+
+        
+    # Load the reference signal
+    Fs, refSignal = wavfile.read("files/student_recording/reference.wav")  # Reference signal
+    refSignal = refSignal[221000:222500, 0]  # Use only one channel
+    refSignal = refSignal / np.max(np.abs(refSignal))  # Normalize the reference signal
+
     # Initialize the Localization object
-    localization = Localization(recording, debug=True)
+    localization = Localization(recording, refSignal, num_pulses, Fs)
     
     # Get the localized position
     x_car, y_car = localization.localizations
