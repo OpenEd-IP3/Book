@@ -100,7 +100,7 @@ KITT may stop everywhere and as many times as needed. There is no time limit exc
 
 The figure below is a example depiction of the Challenges (*On the old television series, KARR is the archenemy of KITT*)
 
-![alt text](FinalChallenge.png)
+![alt text](pictures/FinalChallenge.png)
 
 
 ## Final report
