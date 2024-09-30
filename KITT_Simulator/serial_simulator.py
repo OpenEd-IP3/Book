@@ -104,7 +104,7 @@ class Serial:
 
     def read_until(self, end):
         """Reads from the send buffer until a specified end character is found."""
-        return self.send_buffer.pop(0)  # Return the first element in the send buffer
+        return self.send_buffer.pop(0).encode()  # Return the first element in the send buffer
 
     def run_dynamics(self):
         """Continuously updates the state using dynamics every 50ms."""
