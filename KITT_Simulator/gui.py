@@ -51,6 +51,7 @@ class GUI:
             return
 
         collision_detected = self.check_collision()
+        self.calculate_distance_to_wall()
 
         with hold_canvas(self.canvas):
             self.canvas.clear()  # Clear the main canvas to redraw the car
@@ -68,6 +69,8 @@ class GUI:
             self.canvas.fill_style = 'black'
             self.canvas.fill_text(f"M{self.state.motor_command}", self.field_size - 20, 20 + self.padding)
             self.canvas.fill_text(f"D{self.state.servo_command}", self.field_size - 20, 30 + self.padding)
+            self.canvas.fill_text(f"L{self.state.dist_L:.2f}", self.field_size - 20, 40 + self.padding)
+            self.canvas.fill_text(f"R{self.state.dist_R:.2f}", self.field_size - 20, 50 + self.padding)
 
             # Calculate the car position with the bottom-left origin and center the car
             car_x = self.state.x + self.padding
@@ -126,6 +129,90 @@ class GUI:
             return True
         
         return False
+    
+    def calculate_distance_to_wall(self):
+        """
+        Calculates the distance from the front-left and front-right corners of the car to the nearest wall
+        the car is facing, considering the car's orientation within a square field.
+        """
+
+        # Car's dimensions
+        w = self.car_width
+        h = self.car_height
+
+        # Car's position and orientation
+        x_car = self.state.x
+        y_car = self.state.y
+        theta = self.state.theta
+
+        cos_theta = np.cos(theta)
+        sin_theta = np.sin(theta)
+
+        # Front-left corner in local coordinates
+        x_fl_local = -w / 2
+        y_fl_local = h / 2
+
+        # Front-right corner in local coordinates
+        x_fr_local = -w / 2
+        y_fr_local = -h / 2
+
+        # Compute global positions of the front-left corner
+        x_fl_global = x_car + x_fl_local * cos_theta - y_fl_local * sin_theta
+        y_fl_global = y_car + x_fl_local * sin_theta + y_fl_local * cos_theta
+
+        # Compute global positions of the front-right corner
+        x_fr_global = x_car + x_fr_local * cos_theta - y_fr_local * sin_theta
+        y_fr_global = y_car + x_fr_local * sin_theta + y_fr_local * cos_theta
+
+        # Direction vector (normalized)
+        dir_x = cos_theta
+        dir_y = sin_theta
+
+        # Function to compute distance to walls from a point
+        def distance_to_walls(x0, y0, dir_x, dir_y):
+            t_values = []
+
+            # Left wall x = 0
+            if dir_x != 0:
+                t = (0 - x0) / dir_x
+                if t > 0:
+                    y = y0 + t * dir_y
+                    if 0 <= y <= self.field_size:
+                        t_values.append(t)
+            # Right wall x = self.field_size
+            if dir_x != 0:
+                t = (self.field_size - x0) / dir_x
+                if t > 0:
+                    y = y0 + t * dir_y
+                    if 0 <= y <= self.field_size:
+                        t_values.append(t)
+            # Bottom wall y = 0
+            if dir_y != 0:
+                t = (0 - y0) / dir_y
+                if t > 0:
+                    x = x0 + t * dir_x
+                    if 0 <= x <= self.field_size:
+                        t_values.append(t)
+            # Top wall y = self.field_size
+            if dir_y != 0:
+                t = (self.field_size - y0) / dir_y
+                if t > 0:
+                    x = x0 + t * dir_x
+                    if 0 <= x <= self.field_size:
+                        t_values.append(t)
+
+            if t_values:
+                return min(t_values)
+            else:
+                return float('inf')  # No intersection in the positive t direction
+
+        # Compute distances
+        dist_L = distance_to_walls(x_fl_global, y_fl_global, dir_x, dir_y)
+        dist_R = distance_to_walls(x_fr_global, y_fr_global, dir_x, dir_y)
+
+        # Update the state with the computed distances
+        self.state.dist_L = dist_L
+        self.state.dist_R = dist_R
 
     def display(self):
         display(self.canvas)  # Ensure the canvas is displayed in the notebook
