@@ -148,12 +148,12 @@ class GUI:
         cos_theta = np.cos(theta)
         sin_theta = np.sin(theta)
 
-        # Front-left corner in local coordinates
-        x_fl_local = -w / 2
+        # Front-left corner in local coordinates (corrected to front)
+        x_fl_local = w / 2
         y_fl_local = h / 2
 
-        # Front-right corner in local coordinates
-        x_fr_local = -w / 2
+        # Front-right corner in local coordinates (corrected to front)
+        x_fr_local = w / 2
         y_fr_local = -h / 2
 
         # Compute global positions of the front-left corner
@@ -206,7 +206,7 @@ class GUI:
             else:
                 return float('inf')  # No intersection in the positive t direction
 
-        # Compute distances
+        # Compute distances from the front-left and front-right corners
         dist_L = distance_to_walls(x_fl_global, y_fl_global, dir_x, dir_y)
         dist_R = distance_to_walls(x_fr_global, y_fr_global, dir_x, dir_y)
 
