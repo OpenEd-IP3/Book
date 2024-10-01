@@ -14,6 +14,8 @@ class State:
     motor_command: int = 150  # last received motor command
     servo_command: int = 150  # last received steering command
     beacon: bool = False  # beacon status on/off
+    dist_L: float = 0  # left distance sensor reading in cm
+    dist_R: float = 0  # right distance sensor reading in cm
     _lock = threading.Lock()  # lock to ensure thread safety
 
 class SharedState:
