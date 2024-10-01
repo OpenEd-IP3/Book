@@ -61,8 +61,8 @@ class Serial:
                     elif int(command[1:-1]) == 0:
                         self.state.beacon = False
                 case b'S':
-                    left_distance = 999
-                    right_distance = 999
+                    left_distance = self.state.dist_L
+                    right_distance = self.state.dist_R
                     voltage = 11.5
                     audio_code = 0xABCDEF00
                     carrier_frequency = 5678
