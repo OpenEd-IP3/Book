@@ -96,9 +96,6 @@ class Stream:
         D4 = np.linalg.norm(mic_coor[3] - car_coor)
         D5 = np.linalg.norm(mic_coor[4] - car_coor)
 
-        print(
-            f"Distance differences: D12={D2-D1}, D13={D3-D1}, D14={D4-D1}, D15={D5-D1}"
-        )
         return D1, D2, D3, D4, D5
 
     @staticmethod
