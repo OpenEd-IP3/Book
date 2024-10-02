@@ -1,3 +1,7 @@
-KITT_Simulator/__pycache__/
-KITT_Simulator/logs/serialSimulator.log
+# ignore ALL .log files
+*.log
+# ignore ALL files in ANY directory named temp
+temp/
 *.pyc
+*.DS_Store 
+.ipynb_checkpoints
