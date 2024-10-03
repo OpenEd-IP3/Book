@@ -28,7 +28,7 @@ The format is of that of a technical report, and not that of a homework assignme
 
 The deadline for submission is listed on Brightspace. Submit your report using the corresponding submission folder. Please use a filename that starts with your group number.
 
-The report should be independently readable by a technically skilled committee member who is not familiar with EPO-4, but you can refer where needed, so don't copy large parts of this manual but summarize the scope in your own words.  Note: you cannot refer to something like `ch3' without explaining briefly what that is.
+The report should be independently readable by a technically skilled committee member who is not familiar with IP3, but you can refer where needed, so don't copy large parts of this manual but summarize the scope in your own words.  Note: you cannot refer to something like `ch3' without explaining briefly what that is.
 
 The modules suggested questions that you can answer in your report ---do this in a natural (self-contained) way.  You can also refer to additional literature that you consulted.  As mentioned, you should try to be concise, and judge yourself what is important to be included.
 
@@ -44,7 +44,7 @@ Keep a clear structure and writing style. Make sure you give sufficient factual 
 
 After the problem definition/requirements and an initial analysis that identifies the critical design issues, a typical report would split the problem up into sub-problems (subsystems) which are defined in general terms in the Introduction, and developed individually in the subsequent sections. A picture (block scheme) might be helpful to show the structure and the relations among subsystems. Sometimes, after the introduction a section is needed that describes the background in more technical or mathematical detail, or analyzes the problem in more detail. For the mid-term report, that structure is probably overkill.
 
-In general, an introduction may also contain a literature overview, references to similar work, e.g., how similar problems have been solved and what are the limitations of those solutions (thus motivating your present work), but that is probably not needed for EPO-4.
+In general, an introduction may also contain a literature overview, references to similar work, e.g., how similar problems have been solved and what are the limitations of those solutions (thus motivating your present work), but that is probably not needed for IP3.
 
 The sections on subsystems may follow the same structure but at a more detailed level.
 
@@ -66,7 +66,7 @@ If something doesn't work, what is your hypothesis on the problem? How would you
 
 It is certainly not appreciated if you only say "It works" or "It didn't work" without documenting this first (i.e., show results/plots/evidence and discuss what is seen).
 
-**For EPO-4, particular emphasis will be placed on the testing aspect. You cannot make claims unless you provide evidence. Your overall system will fail if a subsystem fails, and the purpose of testing is to rule out possible causes of failure.**
+**For IP3, particular emphasis will be placed on the testing aspect. You cannot make claims unless you provide evidence. Your overall system will fail if a subsystem fails, and the purpose of testing is to rule out possible causes of failure.**
 
 - *Conclusions:* Each section finished with a conclusion summarizing the results of the Module in a few lines, including claims on expected accuracy. This captures what members of the other sub-group need to know when they use your Module as a black box tool.
 
