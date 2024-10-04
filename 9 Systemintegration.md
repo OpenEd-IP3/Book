@@ -47,7 +47,7 @@ Do not postpone to document your work. The final report is needed very shortly a
 
 ## Final Challenge
 
-The final challenge for EPO-4 consists of four challenges and a fifth "free challenge". In order to get a passing grade, you have to successfully pass at least the first challenge. With every other challenge you pass you will get a higher grade. You will have maximum two attempts for each challenge. If you fail a challenge, you may not compete in further challenges, except for the "free challenge".
+The final challenge for IP3 consists of four challenges and a fifth "free challenge". In order to get a passing grade, you have to successfully pass at least the first challenge. With every other challenge you pass you will get a higher grade. You will have maximum two attempts for each challenge. If you fail a challenge, you may not compete in further challenges, except for the "free challenge".
 
 The car reference position is the beacon location.
 Before each challenge you are allowed to measure the field and the position of the destination (and waypoints). A challenge starts at a given (known) starting position at the edge of the field. The orientation of KITT is always 90° with respect to the edge of the field. Once the start command has been issued you may not touch KITT nor the PC except for an emergency stop.
@@ -107,7 +107,7 @@ The figure below is a example depiction of the Challenges (*On the old televisio
 
  Instructions for the final report are similar to those of the midterm report (see Mid-term report chapter). Aim for a **well-structured**, compact yet complete report of about 30 pages (plus Python code in an appendix). Do not forget to systematically report on testing/verification: how do you test (each subsystem, and the entire system), what are the results from the test, what do you conclude. Include the results of the final challenge in the report as well. Note that the final challenge is not a test, rather it is a demonstration. With extensive testing, these results won't be a surprise to the reader!
     
-The report is judged by committee members that are not indepth familiar with EPO-4, or the manual. Your report has to be sufficiently self-contained.
+The report is judged by committee members that are not indepth familiar with IP3, or the manual. Your report has to be sufficiently self-contained.
     
 The submission deadline is listed on Brightspace, typically it is one day after the final challenge.  Submit your report using the corresponding submission folder.
 
