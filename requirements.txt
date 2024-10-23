@@ -2,7 +2,6 @@ jupyter-book
 matplotlib
 numpy
 pyserial
-keyboard
 scipy
 statsmodels
 ipywidgets
