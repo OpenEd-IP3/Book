@@ -10,4 +10,3 @@ ipycanvas
 shapely
 pyaudio
 tk
-pynput
